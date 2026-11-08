@@ -1,2 +1,2 @@
-// Consultas a las tablas ventas y venta_items.
+// Consultas a las tablas ventas y detalles_venta.
 // TODO: implementar.

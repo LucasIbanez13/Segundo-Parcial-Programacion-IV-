@@ -1,0 +1,79 @@
+# Checklist de requisitos
+
+> Marcar `[x]` al terminar y probar cada punto. Completar la columna "Responsable" al repartir el trabajo.
+
+## Base / infraestructura
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | Conexión a PostgreSQL (`src/db/index.js`) | |
+| [ ] | Schema Drizzle de todas las tablas + `npm run db:push` funciona | |
+| [ ] | Seed: primer administrador desde `.env` + datos de ejemplo | |
+| [ ] | Helpers: errores, formato de moneda/fecha, constantes | |
+| [ ] | Componentes UI base (Button, Card, Input, Select, Table, Badge, Alert, PageHeader, StatCard, Modal) | |
+| [ ] | Layout: Sidebar + Header con usuario y cerrar sesión, responsive | |
+
+## Usuarios y acceso
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | `POST/GET/DELETE /api/sesion` (login, sesión actual, logout) | |
+| [ ] | Contraseñas con bcrypt, nunca devueltas | |
+| [ ] | Usuario inactivo no puede iniciar sesión y pierde sesiones abiertas | |
+| [ ] | Middleware: sin sesión → `/login` | |
+| [ ] | `/api/usuarios*` solo admin (verificado en servidor) | |
+| [ ] | Listar / crear / editar / activar-desactivar usuarios | |
+| [ ] | No se puede desactivar ni quitar admin al último administrador | |
+| [ ] | Pantalla de login | |
+
+## Productos y stock
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | Alta de producto (código único, precio > 0, stock inicial ≥ 0) | |
+| [ ] | Stock inicial > 0 genera movimiento `INICIAL` en la misma transacción | |
+| [ ] | Consultar y modificar producto (sin tocar stock) | |
+| [ ] | Activar / desactivar (baja lógica) | |
+| [ ] | Búsqueda por nombre o código (sin acentos ni mayúsculas) | |
+| [ ] | Movimiento manual de entrada / salida con cantidad y motivo | |
+| [ ] | Salida mayor al stock → 409 | |
+| [ ] | Historial de movimientos distinguiendo manual / inicial / venta | |
+| [ ] | Indicadores: activos, stock bajo (≤ 3), movimientos recientes | |
+
+## Clientes y cuenta corriente
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | Alta / consulta / edición de cliente (al menos un contacto) | |
+| [ ] | Búsqueda por nombre o documento | |
+| [ ] | Saldo calculado (ventas cta. cte. − pagos) en listado y detalle | |
+| [ ] | Cuenta corriente: saldo + movimientos (ventas y pagos) | |
+| [ ] | Registrar pago (fecha no futura, importe > 0 y ≤ saldo) con bloqueo | |
+
+## Ventas
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | Seleccionar consumidor final o cliente registrado | |
+| [ ] | Alta de cliente durante la venta sin perder lo cargado | |
+| [ ] | Agregar / quitar productos (solo activos) y cambiar cantidades | |
+| [ ] | Subtotales y total se recalculan en vivo | |
+| [ ] | Forma de pago: contado, tarjeta, cuenta corriente (solo con cliente) | |
+| [ ] | Servidor agrupa repetidos, toma precios de la BD, valida activo y stock | |
+| [ ] | Transacción: venta + detalles + descuento de stock + movimientos | |
+| [ ] | Número de comprobante único (secuencia) | |
+| [ ] | Copias históricas de cliente y productos | |
+| [ ] | Error de stock claro y posibilidad de corregir la venta | |
+| [ ] | Listado de ventas | |
+| [ ] | Detalle del comprobante | |
+
+## Entrega
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | README completo (descripción, instalación, BD, admin inicial, link, credenciales, funcionalidades) | |
+| [ ] | App publicada (ej. Vercel) + BD en la nube (ej. Neon) | |
+| [ ] | Datos de ejemplo cargados en producción | |
+| [ ] | Sin credenciales en el código | |
+
+## Opcionales (solo cuando todo lo anterior esté listo)
+| Hecho | Requisito | Responsable |
+| --- | --- | --- |
+| [ ] | Imprimir comprobante | |
+| [ ] | Filtros de ventas por fecha, cliente o forma de pago | |
+| [ ] | Panel inicial con indicadores | |
+| [ ] | Gráficos con Chart.js | |

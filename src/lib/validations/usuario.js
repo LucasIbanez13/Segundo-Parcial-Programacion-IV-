@@ -1,2 +1,2 @@
-// Esquema zod de usuario: nombre, email, contraseña, rol, activo.
+// Esquemas zod de usuario: nombre, acceso, contrasena, administrador, activo (alta y PATCH).
 // TODO: implementar.

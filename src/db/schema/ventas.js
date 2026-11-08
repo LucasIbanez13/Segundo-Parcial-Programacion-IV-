@@ -1,1 +1,3 @@
-// Tabla ventas: id, numero (único), fecha, clienteId (nullable = consumidor final), clienteNombre y clienteDocumento (copia histórica), formaPago ('contado' | 'tarjeta' | 'cuenta_corriente'), total, usuarioId.
+// Tabla ventas: id, numero (único, secuencia), fecha, cliente_id (null = consumidor final), usuario_id,
+// cliente_nombre, cliente_documento (copias), forma_pago (CONTADO | TARJETA | CUENTA_CORRIENTE), total_centavos.
+// Ver docs/03-base-de-datos.md

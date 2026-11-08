@@ -1,15 +1,36 @@
 @import "tailwindcss";
 
-/* Paleta tomada del diseño (mockup "mostrador") */
+/* Paleta exacta del mockup "mostrador". Ver docs/04-pantallas-y-diseno.md */
 @theme {
-  --color-sidebar: #1f3a2f;
-  --color-sidebar-active: #2f5243;
-  --color-primary: #234a3a;
-  --color-accent: #d4ec8e;
-  --color-background: #f1f1ea;
+  --font-sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  --font-serif: Georgia, serif;
+
+  --color-sidebar: #1d3930;
+  --color-sidebar-active: #36584b;
+  --color-accent: #d4ed91;
+  --color-primary: #254d3c;
+  --color-primary-hover: #34634d;
+  --color-background: #f2f3ed;
+  --color-topbar: #fafbf7;
   --color-surface: #ffffff;
-  --color-border: #e4e4dc;
-  --color-muted: #6b7a72;
-  --color-warning: #fdebc8;
-  --color-success: #e3f0dc;
+  --color-border: #e1e7df;
+  --color-ink: #23332d;
+  --color-heading: #20372d;
+  --color-muted: #758278;
+  --color-help: #eaf0e6;
+  --color-focus: #d8a448;
+  --color-danger: #9a3527;
+
+  --color-badge-ok-bg: #eaf4e5;
+  --color-badge-ok: #4f7849;
+  --color-badge-warn-bg: #fff2d9;
+  --color-badge-warn: #96661d;
+  --color-badge-neutral-bg: #eff1ec;
+  --color-badge-neutral: #66776b;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
 }

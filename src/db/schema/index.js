@@ -1,2 +1,2 @@
-// Reexporta todas las tablas para Drizzle.
-// TODO: export * from './usuarios.js'; etc.
+// Reexporta todas las tablas para Drizzle. Modelo: docs/03-base-de-datos.md
+// TODO: usuarios, sesiones, clientes, productos, ventas, detallesVenta, movimientosStock, pagos.

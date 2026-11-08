@@ -1,0 +1,8 @@
+---
+description: Reglas del Segundo Parcial (mostrador)
+alwaysApply: true
+---
+
+Seguí todas las reglas de `AGENTS.md` y leé la carpeta `docs/` antes de escribir código.
+Stack fijo (Next.js 15 + React 19 en JavaScript, Tailwind 4, PostgreSQL + Drizzle, bcryptjs, zod), sin dependencias nuevas.
+Respetá la API de `docs/02-api-rest.md`, las tablas de `docs/03-base-de-datos.md` y el alcance de `docs/01-enunciado.md`.

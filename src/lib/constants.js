@@ -1,2 +1,3 @@
-// Constantes: roles, formas de pago, tipos de movimiento, umbral de stock bajo.
+// Constantes: FORMAS_PAGO (CONTADO, TARJETA, CUENTA_CORRIENTE), TIPOS_MOVIMIENTO (ENTRADA, SALIDA),
+// ORIGENES_MOVIMIENTO (INICIAL, MANUAL, VENTA), UMBRAL_STOCK_BAJO = 3, CONSUMIDOR_FINAL = 'Consumidor final'.
 // TODO: implementar.

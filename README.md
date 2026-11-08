@@ -10,8 +10,13 @@ Aplicación web para gestionar las ventas de un comercio, su catálogo de produc
 - **Tailwind CSS 4** — estilos
 - **PostgreSQL** + **Drizzle ORM** — base de datos persistente
 - **bcryptjs** — hash de contraseñas
-- **jose** — sesión con cookie firmada
 - **zod** — validaciones
+- Sesión con tabla `sesiones` en la BD + cookie HttpOnly
+
+## Documentación para el equipo (y la IA)
+
+Toda la especificación está en [`docs/`](docs/README.md): enunciado, API REST, base de datos, pantallas, reglas y checklist.
+Las IAs (Claude Code, Codex, Copilot, Cursor) leen automáticamente [`AGENTS.md`](AGENTS.md) / [`CLAUDE.md`](CLAUDE.md), que las obligan a respetar esa documentación.
 
 ## Estructura del proyecto
 
@@ -26,12 +31,12 @@ src/
 │   │   ├── productos/        # Catálogo, alta/edición, movimientos de stock
 │   │   ├── clientes/         # Clientes, cuenta corriente, pagos
 │   │   └── usuarios/         # Administración de usuarios (solo admin)
-│   └── api/                  # Endpoints REST (route handlers)
-│       ├── auth/             # login, logout, me
+│   └── api/                  # Endpoints REST (ver docs/02-api-rest.md)
+│       ├── sesion/           # login, sesión actual, logout
 │       ├── ventas/
 │       ├── productos/
-│       ├── stock/movimientos/
-│       ├── clientes/         # + /[id]/cuenta y /[id]/pagos
+│       ├── movimientos-stock/
+│       ├── clientes/         # + /[id]/cuenta-corriente y /[id]/pagos
 │       └── usuarios/
 ├── components/               # Componentes de React
 │   ├── layout/               # Sidebar, Header, PageHeader
@@ -51,7 +56,7 @@ Flujo de una petición: `página / componente` → `app/api/...` → `services/`
 
 ```bash
 npm install
-cp .env.example .env      # completar DATABASE_URL, SESSION_SECRET y ADMIN_*
+cp .env.example .env      # completar DATABASE_URL y ADMIN_*
 npm run db:push           # crea las tablas en la base de datos
 npm run db:seed           # crea el primer administrador y datos de ejemplo
 npm run dev               # http://localhost:3000
@@ -61,11 +66,10 @@ npm run dev               # http://localhost:3000
 
 | Variable         | Descripción                                   |
 | ---------------- | --------------------------------------------- |
-| `DATABASE_URL`   | Cadena de conexión a PostgreSQL               |
-| `SESSION_SECRET` | Clave para firmar la cookie de sesión         |
-| `ADMIN_NAME`     | Nombre del primer administrador (seed)        |
-| `ADMIN_EMAIL`    | Correo del primer administrador (seed)        |
-| `ADMIN_PASSWORD` | Contraseña del primer administrador (seed)    |
+| `DATABASE_URL`     | Cadena de conexión a PostgreSQL               |
+| `ADMIN_NOMBRE`     | Nombre del primer administrador (seed)        |
+| `ADMIN_ACCESO`     | Correo / acceso del primer administrador      |
+| `ADMIN_CONTRASENA` | Contraseña del primer administrador (seed)    |
 
 > Las credenciales reales **no** se suben al repositorio (`.env` está en `.gitignore`).
 

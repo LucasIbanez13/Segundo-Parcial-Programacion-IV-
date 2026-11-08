@@ -1,2 +1,2 @@
 // Lógica de autenticación.
-// TODO: login(email, password), logout(), getUsuarioActual().
+// TODO: iniciarSesion(acceso, contrasena) (rechaza inactivos), cerrarSesion(token), obtenerUsuarioDeSesion(token).

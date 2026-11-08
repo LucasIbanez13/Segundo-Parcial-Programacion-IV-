@@ -1,2 +1,4 @@
 // Lógica de cuentas corrientes.
-// TODO: obtenerSaldo(clienteId) = ventas cta. cte. - pagos, obtenerMovimientos(clienteId), registrarPago(clienteId, datos) (no mayor al saldo).
+// TODO: calcularSaldo(clienteId) = ventas CUENTA_CORRIENTE - pagos,
+//       obtenerCuentaCorriente(clienteId),
+//       registrarPago(clienteId, datos, usuario) (transacción con bloqueo del cliente, importe <= saldo, fecha no futura).

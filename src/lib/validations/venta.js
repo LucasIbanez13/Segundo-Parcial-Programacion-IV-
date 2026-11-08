@@ -1,2 +1,2 @@
-// Esquema zod de venta: items (>= 1, cantidad entera > 0), forma de pago, cta. cte. solo con cliente registrado.
+// Esquema zod de venta: clienteId (null o entero), formaPago, productos [{ productoId, cantidad > 0 }] (mín. 1).
 // TODO: implementar.

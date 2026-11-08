@@ -1,2 +1,3 @@
-// Middleware: redirige a /login si no hay sesión y bloquea /usuarios a no administradores.
+// Middleware: redirige a /login si no hay cookie de sesión.
+// (La verificación real de sesión y rol se hace en el servidor, en cada route handler.)
 // TODO: implementar.
