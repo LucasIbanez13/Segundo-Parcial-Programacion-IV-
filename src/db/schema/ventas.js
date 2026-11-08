@@ -1,0 +1,1 @@
+// Tabla ventas: id, numero (único), fecha, clienteId (nullable = consumidor final), clienteNombre y clienteDocumento (copia histórica), formaPago ('contado' | 'tarjeta' | 'cuenta_corriente'), total, usuarioId.

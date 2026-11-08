@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Paleta tomada del diseño (mockup "mostrador") */
+@theme {
+  --color-sidebar: #1f3a2f;
+  --color-sidebar-active: #2f5243;
+  --color-primary: #234a3a;
+  --color-accent: #d4ec8e;
+  --color-background: #f1f1ea;
+  --color-surface: #ffffff;
+  --color-border: #e4e4dc;
+  --color-muted: #6b7a72;
+  --color-warning: #fdebc8;
+  --color-success: #e3f0dc;
+}
