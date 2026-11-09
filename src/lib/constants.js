@@ -1,3 +1,23 @@
-// Constantes: FORMAS_PAGO (CONTADO, TARJETA, CUENTA_CORRIENTE), TIPOS_MOVIMIENTO (ENTRADA, SALIDA),
-// ORIGENES_MOVIMIENTO (INICIAL, MANUAL, VENTA), UMBRAL_STOCK_BAJO = 3, CONSUMIDOR_FINAL = 'Consumidor final'.
-// TODO: implementar.
+// Constantes del negocio. Sin dependencias del servidor: se usan también en el navegador.
+
+export const FORMAS_PAGO = Object.freeze({
+  CONTADO: "CONTADO",
+  TARJETA: "TARJETA",
+  CUENTA_CORRIENTE: "CUENTA_CORRIENTE",
+});
+
+export const TIPOS_MOVIMIENTO = Object.freeze({
+  ENTRADA: "ENTRADA",
+  SALIDA: "SALIDA",
+});
+
+export const ORIGENES_MOVIMIENTO = Object.freeze({
+  INICIAL: "INICIAL",
+  MANUAL: "MANUAL",
+  VENTA: "VENTA",
+});
+
+// Umbral ilustrativo, solo visual: no bloquea ninguna operación.
+export const UMBRAL_STOCK_BAJO = 3;
+
+export const CONSUMIDOR_FINAL = "Consumidor final";
