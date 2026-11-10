@@ -10,19 +10,19 @@
 | [ ] | Seed: primer administrador desde `.env` + datos de ejemplo | |
 | [ ] | Helpers: errores, formato de moneda/fecha, constantes | |
 | [ ] | Componentes UI base (Button, Card, Input, Select, Table, Badge, Alert, PageHeader, StatCard, Modal) | |
-| [ ] | Layout: Sidebar + Header con usuario y cerrar sesión, responsive | |
+| [x] | Layout: Sidebar + Header con usuario y cerrar sesión, responsive | Lucas |
 
 ## Usuarios y acceso
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | `POST/GET/DELETE /api/sesion` (login, sesión actual, logout) | |
-| [ ] | Contraseñas con bcrypt, nunca devueltas | |
-| [ ] | Usuario inactivo no puede iniciar sesión y pierde sesiones abiertas | |
-| [ ] | Middleware: sin sesión → `/login` | |
-| [ ] | `/api/usuarios*` solo admin (verificado en servidor) | |
-| [ ] | Listar / crear / editar / activar-desactivar usuarios | |
-| [ ] | No se puede desactivar ni quitar admin al último administrador | |
-| [ ] | Pantalla de login | |
+| [x] | `POST/GET/DELETE /api/sesion` (login, sesión actual, logout) | Lucas |
+| [x] | Contraseñas con bcrypt, nunca devueltas | Lucas |
+| [x] | Usuario inactivo no puede iniciar sesión y pierde sesiones abiertas | Lucas |
+| [x] | Middleware: sin sesión → `/login` | Lucas |
+| [x] | `/api/usuarios*` solo admin (verificado en servidor) | Lucas |
+| [x] | Listar / crear / editar / activar-desactivar usuarios | Lucas |
+| [x] | No se puede desactivar ni quitar admin al último administrador | Lucas |
+| [x] | Pantalla de login | Lucas |
 
 ## Productos y stock
 | Hecho | Requisito | Responsable |

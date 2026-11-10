@@ -1,6 +1,7 @@
-// Página inicial: redirige a /ventas si hay sesión o a /login si no.
-// TODO: implementar.
+// Página inicial: redirige a /ventas/nueva si hay sesión o a /login si no.
+import { redirect } from "next/navigation";
+import { obtenerSesion } from "@/lib/auth/session";
 
-export default function HomePage() {
-  return null;
+export default async function HomePage() {
+  redirect((await obtenerSesion()) ? "/ventas/nueva" : "/login");
 }
