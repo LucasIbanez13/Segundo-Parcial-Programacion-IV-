@@ -17,6 +17,12 @@ export const ORIGENES_MOVIMIENTO = Object.freeze({
   VENTA: "VENTA",
 });
 
+// Movimientos de cuenta corriente: la venta suma deuda y el pago la descuenta.
+export const TIPOS_MOVIMIENTO_CUENTA = Object.freeze({
+  VENTA: "VENTA",
+  PAGO: "PAGO",
+});
+
 // Umbral ilustrativo, solo visual: no bloquea ninguna operación.
 export const UMBRAL_STOCK_BAJO = 3;
 

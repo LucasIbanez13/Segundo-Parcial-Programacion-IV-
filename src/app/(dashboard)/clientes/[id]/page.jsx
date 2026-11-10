@@ -1,6 +1,12 @@
 // Cuenta corriente del cliente: saldo, ventas en cta. cte., pagos e historial.
-// TODO: implementar.
+import CuentaCorriente from "@/components/clientes/CuentaCorriente";
 
-export default function CuentaCorrientePage() {
-  return null;
+const AVISOS = {
+  "pago-registrado": "Pago registrado.",
+};
+
+export default async function CuentaCorrientePage({ params, searchParams }) {
+  const [{ id }, { aviso }] = await Promise.all([params, searchParams]);
+
+  return <CuentaCorriente id={id} avisoExito={AVISOS[aviso]} />;
 }
