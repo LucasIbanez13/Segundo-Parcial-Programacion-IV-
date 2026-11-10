@@ -40,27 +40,27 @@
 ## Clientes y cuenta corriente
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | Alta / consulta / edición de cliente (al menos un contacto) | |
-| [ ] | Búsqueda por nombre o documento | |
-| [ ] | Saldo calculado (ventas cta. cte. − pagos) en listado y detalle | |
-| [ ] | Cuenta corriente: saldo + movimientos (ventas y pagos) | |
-| [ ] | Registrar pago (fecha no futura, importe > 0 y ≤ saldo) con bloqueo | |
+| [ ] | Alta / consulta / edición de cliente (al menos un contacto) | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Búsqueda por nombre o documento | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Saldo calculado (ventas cta. cte. − pagos) en listado y detalle | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Cuenta corriente: saldo + movimientos (ventas y pagos) | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Registrar pago (fecha no futura, importe > 0 y ≤ saldo) con bloqueo | Lucila (implementado, falta probar con BD y sesión) |
 
 ## Ventas
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | Seleccionar consumidor final o cliente registrado | |
-| [ ] | Alta de cliente durante la venta sin perder lo cargado | |
-| [ ] | Agregar / quitar productos (solo activos) y cambiar cantidades | |
-| [ ] | Subtotales y total se recalculan en vivo | |
-| [ ] | Forma de pago: contado, tarjeta, cuenta corriente (solo con cliente) | |
-| [ ] | Servidor agrupa repetidos, toma precios de la BD, valida activo y stock | |
-| [ ] | Transacción: venta + detalles + descuento de stock + movimientos | |
-| [ ] | Número de comprobante único (secuencia) | |
-| [ ] | Copias históricas de cliente y productos | |
-| [ ] | Error de stock claro y posibilidad de corregir la venta | |
-| [ ] | Listado de ventas | |
-| [ ] | Detalle del comprobante | |
+| [ ] | Seleccionar consumidor final o cliente registrado | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Alta de cliente durante la venta sin perder lo cargado | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Agregar / quitar productos (solo activos) y cambiar cantidades | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Subtotales y total se recalculan en vivo | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Forma de pago: contado, tarjeta, cuenta corriente (solo con cliente) | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Servidor agrupa repetidos, toma precios de la BD, valida activo y stock | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Transacción: venta + detalles + descuento de stock + movimientos | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Número de comprobante único (secuencia) | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Copias históricas de cliente y productos | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Error de stock claro y posibilidad de corregir la venta | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Listado de ventas | Lucila (implementado, falta probar con BD y sesión) |
+| [ ] | Detalle del comprobante | Lucila (implementado, falta probar con BD y sesión) |
 
 ## Entrega
 | Hecho | Requisito | Responsable |
