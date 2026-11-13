@@ -11,6 +11,6 @@ Todo lo que hay que saber para desarrollar el sistema. **Leer antes de programar
 | [05-reglas-de-desarrollo.md](05-reglas-de-desarrollo.md) | Stack, capas y convenciones. |
 | [06-checklist.md](06-checklist.md) | Avance por requerimiento. |
 | [prompts.md](prompts.md) | Prompts listos para usar con la IA. |
+| [mockup/pantallas.html](mockup/pantallas.html) | Pantallas de referencia de la cátedra (contenido y flujos, no diseño). |
 
-El mockup de `mockup/` es de la consigna anterior: queda como referencia histórica y **no** se sigue.
 Prioridad si hay contradicciones: **enunciado > resto de docs > código**.

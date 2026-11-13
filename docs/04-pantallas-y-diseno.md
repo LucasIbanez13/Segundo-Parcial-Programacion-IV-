@@ -1,6 +1,6 @@
 # Pantallas y diseño
 
-> Las pantallas y rutas salen de las **secciones 4 y 8 del enunciado**. Las pantallas de referencia (`pantallas.html` que dio la cátedra) son **solo referencia de contenido y flujos**: el diseño visual es propio, con shadcn/ui + Tailwind, y **no** se copia el formato de esas pantallas.
+> Las pantallas y rutas salen de las **secciones 4 y 8 del enunciado**. Las pantallas de referencia de la cátedra están en [`mockup/pantallas.html`](mockup/pantallas.html) (abrir en el navegador). Son **solo referencia de contenido y flujos**: el diseño visual es propio, con shadcn/ui + Tailwind, y **no** se copia el formato de esas pantallas.
 
 ## Identidad visual propia
 
