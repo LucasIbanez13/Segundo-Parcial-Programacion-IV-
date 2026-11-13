@@ -1,8 +1,8 @@
 ---
-description: Reglas del Segundo Parcial (mostrador)
+description: Reglas del 2º Parcial (mostrador)
 alwaysApply: true
 ---
 
 Seguí todas las reglas de `AGENTS.md` y leé la carpeta `docs/` antes de escribir código.
-Stack fijo (Next.js 15 + React 19 en JavaScript, Tailwind 4, PostgreSQL + Drizzle, bcryptjs, zod), sin dependencias nuevas.
-Respetá la API de `docs/02-api-rest.md`, las tablas de `docs/03-base-de-datos.md` y el alcance de `docs/01-enunciado.md`.
+Stack de la sección 9 del enunciado (TypeScript, Next.js, Tailwind, shadcn/ui, SQLite/libSQL + Drizzle, Zod, pnpm), sin dependencias nuevas.
+Respetá la API de la sección 11 y las capas de la sección 10 de `docs/01-enunciado.md`: reglas solo en `src/services/`.

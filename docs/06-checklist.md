@@ -1,79 +1,70 @@
 # Checklist de requisitos
 
-> Marcar `[x]` al terminar y probar cada punto. Completar la columna "Responsable" al repartir el trabajo.
+> Marcar `[x]` al terminar y probar cada punto. Los códigos son los del enunciado (sección 5). Orden de hitos: sección 12.
 
-## Base / infraestructura
+## Base (hito 1)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | Conexión a PostgreSQL (`src/db/index.js`) | |
-| [ ] | Schema Drizzle de todas las tablas + `npm run db:push` funciona | |
-| [ ] | Seed: primer administrador desde `.env` + datos de ejemplo | |
-| [ ] | Helpers: errores, formato de moneda/fecha, constantes | |
-| [ ] | Componentes UI base (Button, Card, Input, Select, Table, Badge, Alert, PageHeader, StatCard, Modal) | |
-| [x] | Layout: Sidebar + Header con usuario y cerrar sesión, responsive | Lucas |
+| [x] | Migración a TypeScript + pnpm + shadcn/ui + SQLite/libSQL (sección 9) | Lucas |
+| [x] | Conexión Drizzle + libSQL y migraciones con `drizzle-kit` (`db:generate`, `db:migrate`) | Lucas |
+| [x] | `ApiError` + códigos de la sección 11.8 + formato `{ error: { code, message, details } }` | Lucas |
+| [x] | Envoltorios `ruta()` (Route Handlers) y `accion()` (Server Actions) | Lucas |
+| [x] | Esquemas Zod compartidos (`src/lib/schemas/`) con `.strict()` | Lucas |
+| [x] | Primitivas de maquetación y componentes comunes (encabezado, estados, confirmar, campo, insignias, paginador) | Lucas |
+| [x] | Hook `useFormulario` | Lucas |
+| [x] | Módulo de formatos (`src/lib/format.ts`) | Lucas |
+| [x] | Layout: panel lateral con el módulo activo, que se colapsa en el teléfono, y barra superior con el usuario | Lucas |
+| [ ] | Campo de importe (pesos ↔ centavos) | |
+| [ ] | Publicación en Vercel + Turso | |
 
-## Usuarios y acceso
+## Usuarios y acceso (RF-U)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [x] | `POST/GET/DELETE /api/sesion` (login, sesión actual, logout) | Lucas |
-| [x] | Contraseñas con bcrypt, nunca devueltas | Lucas |
-| [x] | Usuario inactivo no puede iniciar sesión y pierde sesiones abiertas | Lucas |
-| [x] | Middleware: sin sesión → `/login` | Lucas |
-| [x] | `/api/usuarios*` solo admin (verificado en servidor) | Lucas |
-| [x] | Listar / crear / editar / activar-desactivar usuarios | Lucas |
-| [x] | No se puede desactivar ni quitar admin al último administrador | Lucas |
-| [x] | Pantalla de login | Lucas |
+| [x] | RF-U1 `POST /api/auth/login` y `POST /api/auth/logout`. Mismo 401 para email inexistente, contraseña mala o usuario inactivo | Lucas |
+| [x] | RF-U2 `GET /api/auth/me` + triple barrera (proxy, páginas, servicios) + usuario resuelto contra la BD en cada pedido | Lucas |
+| [x] | RF-U3 Seed con admin y vendedor usando `usuarios.service` | Lucas |
+| [x] | RF-U4 `GET/POST /api/usuarios`, `PATCH /api/usuarios/{id}` (`EMAIL_DUPLICADO`, `OPERACION_SOBRE_SI_MISMO`) | Lucas |
+| [x] | RF-U4 Pantallas `/usuarios`, `/usuarios/nuevo` y `/usuarios/[id]`, con desactivación confirmada | Lucas |
+| [x] | RF-U5 `PUT /api/auth/password` + pantalla `/perfil` | Lucas |
+| [x] | RF-U5 `POST /api/usuarios/{id}/reset-password` + contraseña temporal mostrada una vez | Lucas |
+| [x] | Vendedor que llama a una ruta de admin → `403 SIN_PERMISO` (aunque mande datos inválidos) | Lucas |
+| [x] | Listado: columnas Usuario, Email, Rol, Estado y Acciones; filtro `activo=true/false/todos`; usable a 360 px | Lucas |
+| [x] | Confirmación (AlertDialog) al desactivar desde la tabla y desde el formulario de edición | Lucas |
+| [x] | Barra superior: usuario, rol, acceso a `/perfil` y botón Salir siempre visible | Lucas |
 
-## Productos y stock
+## Productos y existencias (RF-P, hito 1)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | Alta de producto (código único, precio > 0, stock inicial ≥ 0) | |
-| [ ] | Stock inicial > 0 genera movimiento `INICIAL` en la misma transacción | |
-| [ ] | Consultar y modificar producto (sin tocar stock) | |
-| [ ] | Activar / desactivar (baja lógica) | |
-| [ ] | Búsqueda por nombre o código (sin acentos ni mayúsculas) | |
-| [ ] | Movimiento manual de entrada / salida con cantidad y motivo | |
-| [ ] | Salida mayor al stock → 409 | |
-| [ ] | Historial de movimientos distinguiendo manual / inicial / venta | |
-| [ ] | Indicadores: activos, stock bajo (≤ 3), movimientos recientes | |
+| [ ] | RF-P7 Categorías (alta, edición, baja; `NOMBRE_DUPLICADO`, `CATEGORIA_EN_USO`) | |
+| [ ] | RF-P1 Catálogo paginado con filtros y marca de bajo mínimo | |
+| [ ] | RF-P2 Alta y edición (stock inicial como ingreso, `existencia` rechazada en PATCH) | |
+| [ ] | RF-P3 Baja lógica | |
+| [ ] | RF-P4/P5 Ingresos y egresos con `moverStock()` (única función que cambia la existencia) | |
+| [ ] | RF-P6 Movimientos con existencia resultante, usuario y referencia | |
 
-## Clientes y cuenta corriente
+## Clientes y cuenta corriente (RF-C, hito 2)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | Alta / consulta / edición de cliente (al menos un contacto) | |
-| [ ] | Búsqueda por nombre o documento | |
-| [ ] | Saldo calculado (ventas cta. cte. − pagos) en listado y detalle | |
-| [ ] | Cuenta corriente: saldo + movimientos (ventas y pagos) | |
-| [ ] | Registrar pago (fecha no futura, importe > 0 y ≤ saldo) con bloqueo | |
+| [ ] | RF-C1 Listado con saldo | |
+| [ ] | RF-C2 Alta y edición (DNI/CUIT único, cuenta corriente, límite) | |
+| [ ] | RF-C3 Ficha con últimas facturas | |
+| [ ] | RF-C4 Cuenta corriente con saldo acumulado | |
+| [ ] | RF-C5 Registrar pago con recibo numerado e imprimible | |
+| [ ] | RF-C6 Saldos | |
+| [ ] | RF-C7 Baja lógica (`SALDO_PENDIENTE`) | |
 
-## Ventas
+## Ventas (RF-V, hito 3)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | Seleccionar consumidor final o cliente registrado | |
-| [ ] | Alta de cliente durante la venta sin perder lo cargado | |
-| [ ] | Agregar / quitar productos (solo activos) y cambiar cantidades | |
-| [ ] | Subtotales y total se recalculan en vivo | |
-| [ ] | Forma de pago: contado, tarjeta, cuenta corriente (solo con cliente) | |
-| [ ] | Servidor agrupa repetidos, toma precios de la BD, valida activo y stock | |
-| [ ] | Transacción: venta + detalles + descuento de stock + movimientos | |
-| [ ] | Número de comprobante único (secuencia) | |
-| [ ] | Copias históricas de cliente y productos | |
-| [ ] | Error de stock claro y posibilidad de corregir la venta | |
-| [ ] | Listado de ventas | |
-| [ ] | Detalle del comprobante | |
+| [ ] | RF-V1 a RF-V5 Nueva venta (comprador, ítems, existencia, formas de pago, teclado) | |
+| [ ] | RF-V6 Confirmación en una transacción con numeración correlativa | |
+| [ ] | RF-V7 Comprobante imprimible | |
+| [ ] | RF-V8 Listado con filtros y paginado | |
+| [ ] | RF-V9 Anulación (solo admin) | |
 
-## Entrega
+## Tablero y cierre (RF-T, hito 4)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | README completo (descripción, instalación, BD, admin inicial, link, credenciales, funcionalidades) | |
-| [ ] | App publicada (ej. Vercel) + BD en la nube (ej. Neon) | |
-| [ ] | Datos de ejemplo cargados en producción | |
-| [ ] | Sin credenciales en el código | |
-
-## Opcionales (solo cuando todo lo anterior esté listo)
-| Hecho | Requisito | Responsable |
-| --- | --- | --- |
-| [ ] | Imprimir comprobante | |
-| [ ] | Filtros de ventas por fecha, cliente o forma de pago | |
-| [ ] | Panel inicial con indicadores | |
-| [ ] | Gráficos con Chart.js | |
+| [ ] | RF-T1 a RF-T3 `GET /api/tablero` + gráficos con Chart.js | |
+| [ ] | Seed completo: 2 usuarios, 5 categorías, 30 productos, 10 clientes y 50 facturas, con servicios | |
+| [ ] | README final (integrantes, URL, instalación, variables, usuarios de prueba) | |

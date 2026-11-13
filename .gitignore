@@ -20,3 +20,16 @@ yarn-error.log*
 .DS_Store
 *.pem
 .vercel
+
+# base de datos local (SQLite)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# configuración local de herramientas
+.claude/
