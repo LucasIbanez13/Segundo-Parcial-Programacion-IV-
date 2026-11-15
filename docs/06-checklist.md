@@ -35,12 +35,15 @@
 ## Productos y existencias (RF-P, hito 1)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | RF-P7 Categorías (alta, edición, baja; `NOMBRE_DUPLICADO`, `CATEGORIA_EN_USO`) | |
-| [ ] | RF-P1 Catálogo paginado con filtros y marca de bajo mínimo | |
-| [ ] | RF-P2 Alta y edición (stock inicial como ingreso, `existencia` rechazada en PATCH) | |
-| [ ] | RF-P3 Baja lógica | |
-| [ ] | RF-P4/P5 Ingresos y egresos con `moverStock()` (única función que cambia la existencia) | |
-| [ ] | RF-P6 Movimientos con existencia resultante, usuario y referencia | |
+| [x] | Esquemas `categorias`, `productos`, `movimientos_stock` y `numeradores` + migración `0001_productos_y_stock` | Elias |
+| [x] | Vendedor que llama a una ruta de admin de productos o stock → `403` | Elias |
+| [x] | Existencia = suma de movimientos; egresos simultáneos no dejan negativo (probado) | Elias |
+| [ ] | RF-P7 Categorías (alta, edición, baja; `NOMBRE_DUPLICADO`, `CATEGORIA_EN_USO`) — API lista, falta la pantalla | Elias |
+| [ ] | RF-P1 Catálogo paginado con filtros y marca de bajo mínimo — API lista, falta la pantalla | Elias |
+| [ ] | RF-P2 Alta y edición (stock inicial como ingreso, `existencia` rechazada en PATCH) — API lista, falta la pantalla | Elias |
+| [ ] | RF-P3 Baja lógica — API lista, falta la pantalla | Elias |
+| [ ] | RF-P4/P5 Ingresos y egresos con `moverStock()` (única función que cambia la existencia) — API lista, falta la pantalla | Elias |
+| [ ] | RF-P6 Movimientos con existencia resultante, usuario y referencia — API lista, falta la pantalla | Elias |
 
 ## Clientes y cuenta corriente (RF-C, hito 2)
 | Hecho | Requisito | Responsable |

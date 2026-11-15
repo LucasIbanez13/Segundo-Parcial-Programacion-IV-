@@ -9,6 +9,22 @@ export const ETIQUETAS_ROL: Record<Rol, string> = {
   vendedor: "Vendedor",
 };
 
+// Tipos de movimiento de stock (sección 7). Venta y egreso restan; ingreso y anulación suman.
+export const TIPOS_MOVIMIENTO_STOCK = ["venta", "anulacion", "ingreso", "egreso"] as const;
+export type TipoMovimientoStock = (typeof TIPOS_MOVIMIENTO_STOCK)[number];
+
+export const ETIQUETAS_TIPO_MOVIMIENTO: Record<TipoMovimientoStock, string> = {
+  venta: "Venta",
+  anulacion: "Anulación",
+  ingreso: "Ingreso",
+  egreso: "Egreso",
+};
+
+// Motivos de los movimientos manuales (sección 11.4, POST /api/productos/{id}/movimientos).
+export const MOTIVOS_INGRESO = ["Reposición", "Stock inicial", "Devolución de cliente"] as const;
+export const MOTIVOS_EGRESO = ["Rotura", "Vencimiento", "Ajuste de inventario", "Uso interno"] as const;
+export const MOTIVO_STOCK_INICIAL = "Stock inicial";
+
 // Paginación de listados (sección 11.1).
 export const PAGINA_TAMANO_POR_DEFECTO = 20;
 export const PAGINA_TAMANO_MAXIMO = 100;
