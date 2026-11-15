@@ -1,104 +1,86 @@
-# mostrador — Sistema de ventas y gestión comercial
+# mostrador — Sistema de gestión comercial
 
-Segundo Parcial · Programación IV
+2º Parcial · Programación IV
 
-Aplicación web para gestionar las ventas de un comercio, su catálogo de productos, las existencias y las cuentas corrientes de sus clientes.
+Sistema para un comercio minorista: factura ventas, controla las existencias del catálogo y lleva la cuenta corriente de los clientes, con usuarios por rol (administrador y vendedor) y un tablero de indicadores.
+
+- **Integrantes:** _(completar)_
+- **URL pública:** _(completar al publicar en Vercel)_
 
 ## Tecnologías
 
-- **Next.js 15** (App Router) + **React 19** — JavaScript
-- **Tailwind CSS 4** — estilos
-- **PostgreSQL** + **Drizzle ORM** — base de datos persistente
-- **bcryptjs** — hash de contraseñas
-- **zod** — validaciones
-- Sesión con tabla `sesiones` en la BD + cookie HttpOnly
+| Capa | Tecnología |
+| --- | --- |
+| Lenguaje | TypeScript |
+| Framework | Next.js 15 (App Router) + React 19 |
+| API | REST con Route Handlers |
+| Interfaz | shadcn/ui + Tailwind CSS 4 |
+| Base de datos | SQLite en desarrollo · libSQL (Turso) en producción |
+| Acceso a datos | Drizzle ORM + migraciones con drizzle-kit |
+| Validación | Zod (esquemas compartidos entre cliente y servidor) |
+| Autenticación | Sesión propia en cookie `httpOnly` firmada (HMAC-SHA256) + bcrypt |
+| Hosting | Vercel |
 
-## Documentación para el equipo (y la IA)
+## Puesta en marcha local
 
-Toda la especificación está en [`docs/`](docs/README.md): enunciado, API REST, base de datos, pantallas, reglas y checklist.
-Las IAs (Claude Code, Codex, Copilot, Cursor) leen automáticamente [`AGENTS.md`](AGENTS.md) / [`CLAUDE.md`](CLAUDE.md), que las obligan a respetar esa documentación.
-
-## Estructura del proyecto
-
-El proyecto separa **interfaz**, **lógica de aplicación** y **acceso a datos**:
-
-```
-src/
-├── app/                      # INTERFAZ (páginas) + API REST
-│   ├── login/                # Iniciar sesión
-│   ├── (dashboard)/          # Secciones protegidas (sidebar + header)
-│   │   ├── ventas/           # Listado, nueva venta, detalle de comprobante
-│   │   ├── productos/        # Catálogo, alta/edición, movimientos de stock
-│   │   ├── clientes/         # Clientes, cuenta corriente, pagos
-│   │   └── usuarios/         # Administración de usuarios (solo admin)
-│   └── api/                  # Endpoints REST (ver docs/02-api-rest.md)
-│       ├── sesion/           # login, sesión actual, logout
-│       ├── ventas/
-│       ├── productos/
-│       ├── movimientos-stock/
-│       ├── clientes/         # + /[id]/cuenta-corriente y /[id]/pagos
-│       └── usuarios/
-├── components/               # Componentes de React
-│   ├── layout/               # Sidebar, Header, PageHeader
-│   ├── ui/                   # Button, Card, Input, Table, Badge, Alert...
-│   ├── auth/  ventas/  productos/  clientes/  usuarios/
-├── services/                 # LÓGICA DE APLICACIÓN (reglas de negocio)
-├── repositories/             # ACCESO A DATOS (consultas con Drizzle)
-├── db/                       # Conexión, esquema de tablas y seed
-│   └── schema/
-├── lib/                      # auth (sesión, contraseñas, permisos), validaciones, utilidades
-└── middleware.js             # Protección de rutas
-```
-
-Flujo de una petición: `página / componente` → `app/api/...` → `services/` → `repositories/` → `db/`.
-
-## Instalación y ejecución local
+Requisitos: Node.js 22 y pnpm (`corepack enable pnpm`, o `npx pnpm@9` si no se puede activar).
 
 ```bash
-npm install
-cp .env.example .env      # completar DATABASE_URL y ADMIN_*
-npm run db:push           # crea las tablas en la base de datos
-npm run db:seed           # crea el primer administrador y datos de ejemplo
-npm run dev               # http://localhost:3000
+pnpm install
+cp .env.example .env
+pnpm run db:migrate
+pnpm run db:seed
+pnpm run dev
 ```
+
+Abrir http://localhost:3000.
 
 ## Variables de entorno
 
-| Variable         | Descripción                                   |
-| ---------------- | --------------------------------------------- |
-| `DATABASE_URL`     | Cadena de conexión a PostgreSQL               |
-| `ADMIN_NOMBRE`     | Nombre del primer administrador (seed)        |
-| `ADMIN_ACCESO`     | Correo / acceso del primer administrador      |
-| `ADMIN_CONTRASENA` | Contraseña del primer administrador (seed)    |
+Ver [`.env.example`](.env.example).
 
-> Las credenciales reales **no** se suben al repositorio (`.env` está en `.gitignore`).
+| Variable | Para qué |
+| --- | --- |
+| `DATABASE_URL` | `file:./local.db` en desarrollo; `libsql://...turso.io` en producción |
+| `DATABASE_AUTH_TOKEN` | Token de Turso (solo producción) |
+| `SESSION_SECRET` | Secreto para firmar la cookie de sesión (≥ 32 caracteres) |
+| `SEED_*` | Nombre, email y contraseña de los usuarios de prueba que crea el seed |
 
-## Aplicación publicada
+## Usuarios de prueba
 
-_Pendiente: agregar enlace._
+| Rol | Email | Contraseña |
+| --- | --- | --- |
+| Administrador | `admin@mostrador.test` | `admin1234` |
+| Vendedor | `vendedor@mostrador.test` | `vendedor1234` |
 
-## Datos de acceso para la evaluación
+(Son los valores de `.env.example` para desarrollo; en producción se definen en las variables de Vercel.)
 
-_Pendiente._
+## Arquitectura
 
-| Rol            | Usuario | Contraseña |
-| -------------- | ------- | ---------- |
-| Administrador  |         |            |
-| Operador       |         |            |
+```
+src/
+├── app/
+│   ├── login/                 # única página pública
+│   ├── (app)/                 # páginas privadas (panel lateral + barra superior)
+│   │   ├── perfil/            # cambio de la propia contraseña
+│   │   └── usuarios/          # administración (solo admin) + acciones.ts (Server Actions)
+│   └── api/                   # API REST (sección 11): auth/, usuarios/ ...
+├── services/                  # reglas de negocio: validar → verificar rol → reglas → resultado
+├── repositories/              # consultas Drizzle, sin reglas
+├── db/                        # esquema, conexión y seed
+├── lib/                       # errores (ApiError), esquemas Zod, sesión, envoltorios ruta()/accion(), formatos
+├── components/                # ui/ (shadcn), base/ (primitivas), comunes/, layout/ y por módulo
+└── middleware.ts              # proxy: sin cookie firmada → /login
+```
 
 ## Funcionalidades
 
-- [ ] Inicio y cierre de sesión
-- [ ] Administración de usuarios (solo administrador)
-- [ ] Productos: alta, consulta, edición, búsqueda, activo/inactivo
-- [ ] Movimientos de stock manuales y por ventas
-- [ ] Clientes: alta, consulta, edición, búsqueda
-- [ ] Cuenta corriente: saldo, ventas, pagos e historial
-- [ ] Ventas: carrito, verificación de stock, comprobante, descuento de stock y deuda
-- [ ] Listado de ventas y detalle del comprobante
+| Requerimiento | Estado |
+| --- | --- |
+| RF-U1 a RF-U5 Usuarios y acceso | ✅ Implementado |
+| RF-P1 a RF-P7 Productos y existencias | Pendiente |
+| RF-C1 a RF-C7 Clientes y cuenta corriente | Pendiente |
+| RF-V1 a RF-V9 Ventas | Pendiente |
+| RF-T1 a RF-T3 Tablero | Pendiente |
 
-## Integrantes
-
-- 
-- 
-- 
+La documentación completa para el equipo está en [`docs/`](docs/README.md).

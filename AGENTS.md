@@ -1,46 +1,50 @@
 # Instrucciones para asistentes de IA
 
-Este repositorio es el **Segundo Parcial de Programación IV**: "mostrador", un sistema de ventas y gestión comercial
-(ventas, productos y stock, clientes con cuenta corriente, usuarios). Lo desarrollan 3 estudiantes en equipo.
+Este repositorio es el **2º Parcial de Programación IV**: "mostrador", un sistema de gestión comercial
+(facturación, productos y existencias, clientes con cuenta corriente, usuarios con roles y tablero).
+Lo desarrollan 3 estudiantes en equipo.
 
 ## Antes de escribir código: leer `docs/`
 
 | Archivo | Para qué |
 | --- | --- |
-| `docs/01-enunciado.md` | Requisitos oficiales. **Fuente de verdad.** |
-| `docs/02-api-rest.md` | Contrato de la API (rutas, campos, códigos HTTP, errores). |
-| `docs/03-base-de-datos.md` | Tablas, columnas, constraints e invariantes. |
-| `docs/04-pantallas-y-diseno.md` | Pantallas, rutas, colores y tipografía. |
-| `docs/05-reglas-de-desarrollo.md` | Stack, arquitectura en capas, reglas de negocio, convenciones. |
+| `docs/01-enunciado.md` | Enunciado oficial completo (requerimientos RF-*, reglas, modelo, arquitectura y API). **Fuente de verdad.** |
+| `docs/02-api-rest.md` | Decisiones de implementación de la API (el contrato es la sección 11 del enunciado). |
+| `docs/03-base-de-datos.md` | Cómo implementamos el modelo de la sección 7. |
+| `docs/04-pantallas-y-diseno.md` | Rutas, identidad visual propia y componentes comunes. |
+| `docs/05-reglas-de-desarrollo.md` | Stack, capas y convenciones (secciones 9 y 10). |
 | `docs/06-checklist.md` | Estado de avance. Marcar lo que se termina. |
 
-Prioridad ante contradicciones: enunciado > API > base de datos > pantallas > resto.
+Prioridad ante contradicciones: enunciado > resto de `docs/` > código existente.
 
 ## Límites estrictos
 
-1. **No salirse del alcance.** Implementar solo lo que piden `docs/01-enunciado.md` y lo que el usuario pide explícitamente. Nada de funcionalidades "extra" (impuestos, descuentos, devoluciones, anulaciones, cuotas, registro público, recuperación de contraseña, multi-empresa, AFIP/ARCA, números de tarjeta). Los opcionales del enunciado solo si el usuario los pide.
-2. **Stack fijo:** Next.js 15 App Router + React 19 en **JavaScript** (no TypeScript), Tailwind CSS 4, PostgreSQL + Drizzle ORM, bcryptjs, zod. **No instalar dependencias nuevas** ni cambiar de librería sin que el usuario lo apruebe.
-3. **No cambiar el contrato:** rutas de la API, nombres de campos, nombres de tablas/columnas, códigos HTTP y formato de error son los de `docs/`. Si algo parece mal, avisar en vez de cambiarlo.
-4. **Arquitectura en capas:** `page/componente → fetch /api → route.js → services/ → repositories/ → db/`. Los componentes no importan `db` ni repositories. Los route handlers no hacen SQL. Los repositories no tienen reglas de negocio.
-5. **Validar en el servidor siempre** (zod + reglas en services). Verificar sesión en toda la API y rol administrador en `/api/usuarios*`.
-6. **Importes en centavos enteros.** El servidor calcula precios y totales; nunca confía en los del navegador.
-7. **Transacciones:** venta completa (comprobante + detalles + stock + movimientos), alta de producto con stock inicial, movimiento manual, y pagos (con bloqueo por cliente).
-8. **Trabajar solo en los archivos de la tarea pedida.** No reescribir ni "mejorar" otros módulos. Los archivos compartidos (`src/lib/`, `src/db/schema/`, `src/components/ui/`, `src/components/layout/`) se modifican solo si la tarea lo requiere y avisando.
-9. **Nunca** poner credenciales, contraseñas o URLs de base de datos en el código. Todo va en `.env` (ver `.env.example`).
-10. Código, nombres y mensajes **en español** (rioplatense en la UI: "Agregá", "Seleccioná").
+1. **No salirse del alcance** del enunciado ni agregar funcionalidades que nadie pidió.
+2. **Stack de la sección 9:** TypeScript, Next.js App Router, Tailwind, shadcn/ui, Chart.js, SQLite/libSQL (Turso), Drizzle + drizzle-kit, Zod y pnpm. **No instalar otras dependencias** sin que el usuario lo apruebe.
+3. **Contrato de la sección 11:** rutas, campos, códigos HTTP y formato de error tal cual. Si algo parece mal, avisar en vez de cambiarlo.
+4. **Capas (sección 10):** las reglas viven **solo** en `src/services/`. Las rutas (`ruta()`) y Server Actions (`accion()`) son adaptadores finos. Los repositories solo hacen consultas.
+5. Cada función de servicio: `validar(esquema)` → `exigirRol()` → reglas → resultado, con un comentario que cite el RF o la regla.
+6. **Importes en centavos enteros.** El servidor calcula precios y totales.
+7. **Transacciones** para toda operación que toque más de una tabla. La existencia solo cambia en `moverStock()`.
+8. **Trabajar solo en los archivos de la tarea.** Los compartidos (`src/lib/`, `src/db/schema/`, `src/components/ui/`, `src/components/base/`, `src/components/comunes/`, `src/components/layout/`) se modifican solo si hace falta y avisando.
+9. **Nunca** poner credenciales, contraseñas ni URLs de base de datos en el código. Todo va en `.env` (ver `.env.example`).
+10. Código, nombres y mensajes **en español**, rioplatense en la interfaz ("Ingresá", "Seleccioná").
 
 ## Al terminar una tarea
 
-- Correr `npm run build` y confirmar que pasa.
-- Marcar en `docs/06-checklist.md` lo completado.
-- Explicar brevemente qué se hizo y en qué archivos, para que el equipo pueda defenderlo en la evaluación.
+- Correr `pnpm run build` y confirmar que pasa.
+- Si cambió el esquema: `pnpm run db:generate` y subir la migración de `drizzle/`.
+- Marcar lo completado en `docs/06-checklist.md`.
+- Explicar brevemente qué se hizo y en qué archivos, para que el equipo pueda defenderlo.
 
 ## Comandos
 
 ```bash
-npm install          # dependencias
-npm run dev          # servidor local en http://localhost:3000
-npm run build        # verificar que compila
-npm run db:push      # crear/actualizar tablas en la BD
-npm run db:seed      # crear el primer administrador y datos de ejemplo
+pnpm install
+cp .env.example .env
+pnpm run db:migrate   # aplica las migraciones de drizzle/
+pnpm run db:seed      # usuarios de prueba (y más datos en cada hito)
+pnpm run dev          # http://localhost:3000
+pnpm run build        # verificar que compila
+pnpm run db:generate  # crea una migración nueva después de cambiar src/db/schema
 ```
