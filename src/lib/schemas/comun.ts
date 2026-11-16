@@ -7,12 +7,13 @@ import {
   PASSWORD_MINIMO,
 } from "@/lib/constants";
 
-// Texto obligatorio: no puede quedar vacío después de trim().
-export function textoObligatorio(etiqueta: string, maximo = 200) {
+// Texto obligatorio: no puede quedar vacío después de trim(). `femenino` concuerda el mensaje ("La descripción es obligatoria").
+export function textoObligatorio(etiqueta: string, maximo = 200, femenino = false) {
+  const obligatorio = `${etiqueta} es ${femenino ? "obligatoria" : "obligatorio"}.`;
   return z
-    .string({ required_error: `${etiqueta} es obligatorio.`, invalid_type_error: `${etiqueta} debe ser un texto.` })
+    .string({ required_error: obligatorio, invalid_type_error: `${etiqueta} debe ser un texto.` })
     .trim()
-    .min(1, `${etiqueta} es obligatorio.`)
+    .min(1, obligatorio)
     .max(maximo, `${etiqueta} no puede superar los ${maximo} caracteres.`);
 }
 
@@ -52,6 +53,32 @@ export const textoBusqueda = z
   .max(100, "La búsqueda es demasiado larga.")
   .optional()
   .transform((texto) => (texto ? texto : undefined));
+
+// Mensaje de los esquemas .strict() cuando llega un campo no previsto (sección 10.4).
+export const MENSAJE_CAMPOS_EXTRA = "La solicitud tiene campos que no se pueden enviar.";
+
+// Día AAAA-MM-DD de los filtros desde/hasta (sección 11.1). Se interpreta en hora de Argentina.
+export const fechaDia = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "La fecha debe tener el formato AAAA-MM-DD.")
+  .refine((texto) => {
+    const fecha = new Date(`${texto}T00:00:00Z`);
+    return !Number.isNaN(fecha.getTime()) && fecha.toISOString().startsWith(texto);
+  }, "La fecha no es válida.");
+
+// Argentina está en UTC-3 todo el año (sin horario de verano): las 00:00 de allá son las 03:00 UTC.
+const DESFASE_ARGENTINA_MS = 3 * 60 * 60 * 1000;
+const UN_DIA_MS = 24 * 60 * 60 * 1000;
+
+// Instante en que empieza el día AAAA-MM-DD en hora de Argentina.
+export function inicioDelDiaArgentina(dia: string): Date {
+  return new Date(Date.parse(`${dia}T00:00:00Z`) + DESFASE_ARGENTINA_MS);
+}
+
+// Instante en que termina el día (exclusivo): el inicio del día siguiente en hora de Argentina.
+export function finDelDiaArgentina(dia: string): Date {
+  return new Date(inicioDelDiaArgentina(dia).getTime() + UN_DIA_MS);
+}
 
 // Paginación de la sección 11.1: page desde 1, pageSize por defecto 20 y máximo 100.
 export const paginacion = z.object({

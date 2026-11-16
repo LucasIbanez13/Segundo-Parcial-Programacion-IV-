@@ -23,6 +23,61 @@
 
 **Sesiones:** no hay tabla. La cookie `mostrador_sesion` está firmada con HMAC-SHA256 (`SESSION_SECRET`) y contiene `usuarioId.expiraEn.firma`. En cada pedido se busca el usuario en la BD y se verifica que siga activo (sección 10.5). Vence a las 8 horas.
 
+### `categorias` — `src/db/schema/categorias.ts`
+
+| Columna | Tipo | Notas |
+| --- | --- | --- |
+| `id` | integer PK autoincrement | |
+| `nombre` | text not null | Como lo escribió el usuario |
+| `nombre_normalizado` | text not null | Minúsculas calculadas en TypeScript (`toLocaleLowerCase("es-AR")`). Índice único `categorias_nombre_unico`. No se usa `lower()` de SQLite porque no convierte letras acentuadas ("PINTURERÍA" ≠ "pinturería") |
+| `activa` | integer (boolean) not null default true | Baja lógica |
+| `created_at` | integer (timestamp_ms) not null | |
+
+### `productos` — `src/db/schema/productos.ts`
+
+| Columna | Tipo | Notas |
+| --- | --- | --- |
+| `id` | integer PK autoincrement | |
+| `codigo` | text not null | Índice único `productos_codigo_unico` sobre `lower(codigo)`. Zod solo acepta letras sin acento, números y `. _ - /`, así `lower()` alcanza |
+| `descripcion` | text not null | |
+| `categoria_id` | integer not null FK → `categorias.id` | Índice `productos_categoria_idx` |
+| `precio` | integer not null | Centavos. CHECK `precio > 0` |
+| `existencia` | integer not null default 0 | CHECK `>= 0`. **Solo la cambia `moverStock()`** |
+| `stock_minimo` | integer not null default 0 | CHECK `>= 0` |
+| `activo` | integer (boolean) not null default true | Baja lógica (RF-P3) |
+| `created_at` | integer (timestamp_ms) not null | |
+
+### `movimientos_stock` — `src/db/schema/movimientos-stock.ts`
+
+| Columna | Tipo | Notas |
+| --- | --- | --- |
+| `id` | integer PK autoincrement | |
+| `producto_id` | integer not null FK → `productos.id` | |
+| `usuario_id` | integer not null FK → `usuarios.id` | Trazabilidad (regla 11) |
+| `factura_id` | integer null | Ventas y anulaciones. La FK a `facturas` se agrega en el hito 3 |
+| `tipo` | text not null | CHECK `IN ('venta','anulacion','ingreso','egreso')` |
+| `cantidad` | integer not null | Con signo. CHECK `<> 0` y signo según el tipo (venta/egreso < 0, ingreso/anulación > 0) |
+| `existencia_resultante` | integer not null | CHECK `>= 0` |
+| `motivo` | text not null | |
+| `observacion` | text null | |
+| `fecha` | integer (timestamp_ms) not null | |
+| `created_at` | integer (timestamp_ms) not null | |
+
+Índices: `(producto_id, fecha)` para el historial de un producto y `(fecha)` para el listado general.
+
+**Regla 2:** `moverStock()` (`src/services/stock.service.ts`) hace `UPDATE productos SET existencia = existencia + ? WHERE id = ? AND existencia + ? >= 0` y graba el movimiento en la misma transacción. Si el UPDATE no toca ninguna fila → `409 STOCK_INSUFICIENTE`. Las transacciones de libSQL abren con `BEGIN IMMEDIATE`, así que dos escrituras simultáneas se serializan.
+
+### `numeradores` — `src/db/schema/numeradores.ts`
+
+| Columna | Tipo | Notas |
+| --- | --- | --- |
+| `id` | integer PK autoincrement | |
+| `clave` | text not null, **unique** | Serie, por ejemplo `factura-0001` o `recibo` |
+| `ultimo_numero` | integer not null default 0 | CHECK `>= 0` |
+| `created_at` | integer (timestamp_ms) not null | |
+
+Lo usan ventas y pagos (regla 4): incrementan `ultimo_numero` dentro de la transacción que graba el comprobante.
+
 ## Pendientes
 
-`categorias`, `productos`, `movimientos_stock`, `clientes`, `facturas`, `factura_items`, `pagos`, `movimientos_cuenta`. Se agregan en sus hitos siguiendo la sección 7.
+`clientes`, `facturas`, `factura_items`, `pagos`, `movimientos_cuenta`. Se agregan en sus hitos siguiendo la sección 7.

@@ -62,3 +62,26 @@ export function iniciales(nombre: string): string {
     .map((palabra) => palabra[0]!.toUpperCase())
     .join("");
 }
+
+// Centavos -> texto editable en un campo de importe: 1234550 -> "12345,50" (sin separador de miles).
+export function centavosATextoEditable(centavos: number): string {
+  return (centavos / 100).toFixed(2).replace(".", ",");
+}
+
+// Texto que escribe el usuario -> centavos enteros (regla 10). Acepta "12.345,50", "12345,5", "12345.50" y "$ 1.000".
+// Devuelve undefined si está vacío y NaN si no es un importe válido: el esquema de Zod muestra el mensaje.
+export function textoACentavos(texto: string): number | undefined {
+  let limpio = texto.replace(/[$\s]/g, "");
+  if (limpio === "") return undefined;
+  if (limpio.includes(",")) limpio = limpio.replace(/\./g, "").replace(",", ".");
+  else if (/^\d{1,3}(\.\d{3})+$/.test(limpio)) limpio = limpio.replace(/\./g, "");
+  if (!/^\d+(\.\d{1,2})?$/.test(limpio)) return Number.NaN;
+  return Math.round(Number(limpio) * 100);
+}
+
+// Texto de un campo numérico entero -> número (undefined si está vacío, NaN si no es un número).
+export function textoAEntero(texto: string): number | undefined {
+  const limpio = texto.trim();
+  if (limpio === "") return undefined;
+  return /^-?\d+$/.test(limpio) ? Number(limpio) : Number.NaN;
+}

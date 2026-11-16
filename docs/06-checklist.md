@@ -14,7 +14,7 @@
 | [x] | Hook `useFormulario` | Lucas |
 | [x] | Módulo de formatos (`src/lib/format.ts`) | Lucas |
 | [x] | Layout: panel lateral con el módulo activo, que se colapsa en el teléfono, y barra superior con el usuario | Lucas |
-| [ ] | Campo de importe (pesos ↔ centavos) | |
+| [x] | Campo de importe (pesos ↔ centavos): `CampoImporte` + `textoACentavos()` | Elias |
 | [ ] | Publicación en Vercel + Turso | |
 
 ## Usuarios y acceso (RF-U)
@@ -35,12 +35,15 @@
 ## Productos y existencias (RF-P, hito 1)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | RF-P7 Categorías (alta, edición, baja; `NOMBRE_DUPLICADO`, `CATEGORIA_EN_USO`) | |
-| [ ] | RF-P1 Catálogo paginado con filtros y marca de bajo mínimo | |
-| [ ] | RF-P2 Alta y edición (stock inicial como ingreso, `existencia` rechazada en PATCH) | |
-| [ ] | RF-P3 Baja lógica | |
-| [ ] | RF-P4/P5 Ingresos y egresos con `moverStock()` (única función que cambia la existencia) | |
-| [ ] | RF-P6 Movimientos con existencia resultante, usuario y referencia | |
+| [x] | Esquemas `categorias`, `productos`, `movimientos_stock` y `numeradores` + migración `0001_productos_y_stock` | Elias |
+| [x] | Vendedor que llama a una ruta de admin de productos o stock → `403` | Elias |
+| [x] | Existencia = suma de movimientos; egresos simultáneos no dejan negativo (probado) | Elias |
+| [x] | RF-P7 Categorías (alta, edición, baja; `NOMBRE_DUPLICADO`, `CATEGORIA_EN_USO`) | Elias |
+| [x] | RF-P1 Catálogo paginado con filtros y marca de bajo mínimo | Elias |
+| [x] | RF-P2 Alta y edición (stock inicial como ingreso, `existencia` rechazada en PATCH) | Elias |
+| [x] | RF-P3 Baja lógica | Elias |
+| [x] | RF-P4/P5 Ingresos y egresos con `moverStock()` (única función que cambia la existencia) | Elias |
+| [x] | RF-P6 Movimientos con existencia resultante, usuario y referencia | Elias |
 
 ## Clientes y cuenta corriente (RF-C, hito 2)
 | Hecho | Requisito | Responsable |
