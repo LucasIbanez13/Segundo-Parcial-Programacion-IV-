@@ -1,11 +1,12 @@
 CREATE TABLE `categorias` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`nombre` text NOT NULL,
+	`nombre_normalizado` text NOT NULL,
 	`activa` integer DEFAULT true NOT NULL,
 	`created_at` integer NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `categorias_nombre_unico` ON `categorias` (lower("nombre"));--> statement-breakpoint
+CREATE UNIQUE INDEX `categorias_nombre_unico` ON `categorias` (`nombre_normalizado`);--> statement-breakpoint
 CREATE TABLE `productos` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`codigo` text NOT NULL,

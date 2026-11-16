@@ -49,7 +49,9 @@
 - `GET /api/categorias`: por defecto solo las activas, sin paginar. El admin puede pedir `activa=false` o `activa=todos` (para reactivarlas desde su pantalla); un vendedor que lo pida recibe `403`.
 - `GET /api/productos`: `activo` por defecto `true`; `false` y `todos` son solo para el admin (`403` al vendedor). Orden por código.
 - `bajoMinimo` es `existencia < stockMinimo`. `bajoMinimo=false` trae los que no están bajo el mínimo.
-- Nombre de categoría y código de producto son únicos **sin distinguir mayúsculas** (`HE-001` = `he-001`).
+- Nombre de categoría y código de producto son únicos **sin distinguir mayúsculas** (`HE-001` = `he-001`, `Pinturería` = `PINTURERÍA`).
+- El código de producto solo acepta letras sin acento, números y `. _ - /`, sin espacios (`422 VALIDACION`).
+- La búsqueda `q` no distingue mayúsculas en letras sin acento (es el `LIKE` de SQLite).
 - `existencia` en `POST` o `PATCH` de productos → `422 VALIDACION` con un mensaje propio en `details`.
 - La categoría de un producto activo tiene que existir y estar activa; si no, `422 VALIDACION` en `categoriaId`. Por eso no se puede reactivar un producto de una categoría inactiva.
 - `stockInicial` (opcional, ≥ 0): si es mayor que 0 se graba un ingreso con motivo *Stock inicial* en la misma transacción del alta.

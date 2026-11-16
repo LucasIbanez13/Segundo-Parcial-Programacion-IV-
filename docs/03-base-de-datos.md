@@ -28,7 +28,8 @@
 | Columna | Tipo | Notas |
 | --- | --- | --- |
 | `id` | integer PK autoincrement | |
-| `nombre` | text not null | Índice único `categorias_nombre_unico` sobre `lower(nombre)` |
+| `nombre` | text not null | Como lo escribió el usuario |
+| `nombre_normalizado` | text not null | Minúsculas calculadas en TypeScript (`toLocaleLowerCase("es-AR")`). Índice único `categorias_nombre_unico`. No se usa `lower()` de SQLite porque no convierte letras acentuadas ("PINTURERÍA" ≠ "pinturería") |
 | `activa` | integer (boolean) not null default true | Baja lógica |
 | `created_at` | integer (timestamp_ms) not null | |
 
@@ -37,7 +38,7 @@
 | Columna | Tipo | Notas |
 | --- | --- | --- |
 | `id` | integer PK autoincrement | |
-| `codigo` | text not null | Índice único `productos_codigo_unico` sobre `lower(codigo)` |
+| `codigo` | text not null | Índice único `productos_codigo_unico` sobre `lower(codigo)`. Zod solo acepta letras sin acento, números y `. _ - /`, así `lower()` alcanza |
 | `descripcion` | text not null | |
 | `categoria_id` | integer not null FK → `categorias.id` | Índice `productos_categoria_idx` |
 | `precio` | integer not null | Centavos. CHECK `precio > 0` |

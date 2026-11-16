@@ -7,8 +7,13 @@ import { booleanoTexto, idTexto, MENSAJE_CAMPOS_EXTRA, paginacion, textoBusqueda
 const PRECIO_MAXIMO = 100_000_000_000; // $ 1.000.000.000,00
 const CANTIDAD_MAXIMA = 1_000_000;
 
-const codigo = textoObligatorio("El código", 30);
-const descripcion = textoObligatorio("La descripción", 200);
+// Solo letras sin acento, números y . _ - /: así el índice único sobre lower(codigo) no distingue mayúsculas
+// (el lower() de SQLite no convierte letras acentuadas).
+const codigo = textoObligatorio("El código", 30).regex(
+  /^[A-Za-z0-9][A-Za-z0-9._\-/]*$/,
+  "El código solo puede tener letras sin acento, números, puntos, guiones o barras, sin espacios.",
+);
+const descripcion = textoObligatorio("La descripción", 200, true);
 
 const categoriaId = z
   .number({ required_error: "Seleccioná una categoría.", invalid_type_error: "Seleccioná una categoría." })

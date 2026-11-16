@@ -1,7 +1,7 @@
 // Acceso a datos de la tabla categorias: solo consultas Drizzle, sin reglas de negocio.
 // Todas aceptan un ejecutor opcional para participar de una transacción.
 import "server-only";
-import { and, asc, count, eq, ne, sql } from "drizzle-orm";
+import { and, asc, count, eq, ne } from "drizzle-orm";
 import { db, type Ejecutor } from "@/db";
 import { categorias, productos, type CategoriaNueva } from "@/db/schema";
 
@@ -12,6 +12,12 @@ const COLUMNAS_PUBLICAS = {
 };
 
 export type CategoriaPublicaFila = { id: number; nombre: string; activa: boolean };
+
+// Clave del índice único: minúsculas con las reglas del español (también "Í" -> "í"), en forma Unicode NFC
+// para que la misma letra acentuada escrita de dos maneras dé el mismo texto.
+function normalizarNombre(nombre: string): string {
+  return nombre.normalize("NFC").toLocaleLowerCase("es-AR");
+}
 
 export async function listar(
   filtros: { activa?: boolean },
@@ -36,7 +42,7 @@ export async function existeNombre(nombre: string, excluirId?: number, ejecutor:
     .from(categorias)
     .where(
       and(
-        sql`lower(${categorias.nombre}) = lower(${nombre})`,
+        eq(categorias.nombreNormalizado, normalizarNombre(nombre)),
         excluirId === undefined ? undefined : ne(categorias.id, excluirId),
       ),
     )
@@ -56,7 +62,10 @@ export async function insertar(
   datos: Pick<CategoriaNueva, "nombre" | "activa">,
   ejecutor: Ejecutor = db,
 ): Promise<CategoriaPublicaFila> {
-  const [fila] = await ejecutor.insert(categorias).values(datos).returning(COLUMNAS_PUBLICAS);
+  const [fila] = await ejecutor
+    .insert(categorias)
+    .values({ ...datos, nombreNormalizado: normalizarNombre(datos.nombre) })
+    .returning(COLUMNAS_PUBLICAS);
   return fila;
 }
 
@@ -67,7 +76,7 @@ export async function actualizar(
 ): Promise<CategoriaPublicaFila | null> {
   const [fila] = await ejecutor
     .update(categorias)
-    .set(cambios)
+    .set(cambios.nombre === undefined ? cambios : { ...cambios, nombreNormalizado: normalizarNombre(cambios.nombre) })
     .where(eq(categorias.id, id))
     .returning(COLUMNAS_PUBLICAS);
   return fila ?? null;

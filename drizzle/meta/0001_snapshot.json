@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bce3c9a9-eb0f-49b6-b6a6-fa6fbcb12825",
+  "id": "2309ada1-b8cc-4fb0-a251-ad4c8e0d3fe4",
   "prevId": "65965816-79bc-4831-a07f-d464fd36a794",
   "tables": {
     "usuarios": {
@@ -99,6 +99,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "nombre_normalizado": {
+          "name": "nombre_normalizado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "activa": {
           "name": "activa",
           "type": "integer",
@@ -119,7 +126,7 @@
         "categorias_nombre_unico": {
           "name": "categorias_nombre_unico",
           "columns": [
-            "lower(\"nombre\")"
+            "nombre_normalizado"
           ],
           "isUnique": true
         }
@@ -456,13 +463,6 @@
   },
   "internal": {
     "indexes": {
-      "categorias_nombre_unico": {
-        "columns": {
-          "lower(\"nombre\")": {
-            "isExpression": true
-          }
-        }
-      },
       "productos_codigo_unico": {
         "columns": {
           "lower(\"codigo\")": {

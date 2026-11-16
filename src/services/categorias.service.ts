@@ -19,7 +19,7 @@ function errorNombreDuplicado(nombre: string) {
 // Si dos altas simultáneas pasan la verificación previa, la segunda choca con el índice único.
 function esViolacionUnica(error: unknown): boolean {
   const texto = String((error as { cause?: unknown })?.cause ?? error);
-  return texto.includes("categorias_nombre_unico") || texto.includes("UNIQUE constraint failed: categorias.nombre");
+  return texto.includes("UNIQUE constraint failed: categorias.nombre_normalizado");
 }
 
 // RF-P7: todas las categorías activas, sin paginar (sección 11.4).

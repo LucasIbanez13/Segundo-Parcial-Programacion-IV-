@@ -7,12 +7,13 @@ import {
   PASSWORD_MINIMO,
 } from "@/lib/constants";
 
-// Texto obligatorio: no puede quedar vacío después de trim().
-export function textoObligatorio(etiqueta: string, maximo = 200) {
+// Texto obligatorio: no puede quedar vacío después de trim(). `femenino` concuerda el mensaje ("La descripción es obligatoria").
+export function textoObligatorio(etiqueta: string, maximo = 200, femenino = false) {
+  const obligatorio = `${etiqueta} es ${femenino ? "obligatoria" : "obligatorio"}.`;
   return z
-    .string({ required_error: `${etiqueta} es obligatorio.`, invalid_type_error: `${etiqueta} debe ser un texto.` })
+    .string({ required_error: obligatorio, invalid_type_error: `${etiqueta} debe ser un texto.` })
     .trim()
-    .min(1, `${etiqueta} es obligatorio.`)
+    .min(1, obligatorio)
     .max(maximo, `${etiqueta} no puede superar los ${maximo} caracteres.`);
 }
 

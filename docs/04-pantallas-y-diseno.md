@@ -27,7 +27,11 @@
 | `/usuarios/[id]` | Edición de usuario | Admin | ✅ |
 | `/` | Tablero (RF-T) | Ambos | Pendiente |
 | `/ventas`, `/ventas/nueva`, `/ventas/[id]` | Facturas | Ambos | Pendiente |
-| `/productos`, `/productos/[id]`, `/productos/categorias` | Catálogo, ficha, categorías | Ambos (edición admin) | Pendiente |
+| `/productos` | Catálogo con búsqueda, filtro por categoría, bajo mínimo, estado (admin) y paginado (RF-P1) | Ambos | ✅ |
+| `/productos/nuevo`, `/productos/[id]/editar` | Alta y edición de producto, con stock inicial como ingreso (RF-P2) | Admin | ✅ |
+| `/productos/[id]` | Ficha con movimientos (RF-P6); el admin registra ingresos y egresos (RF-P4, RF-P5) y da de baja (RF-P3) | Ambos (acciones admin) | ✅ |
+| `/productos/movimientos` | Movimientos de stock de todos los productos, filtros por tipo y fechas (RF-P6) | Ambos | ✅ |
+| `/productos/categorias` | Categorías: alta, renombrar y activar/desactivar (RF-P7) | Ambos (edición admin) | ✅ |
 | `/clientes`, `/clientes/[id]`, `/clientes/saldos` | Clientes y cuenta corriente | Ambos | Pendiente |
 
 Para el vendedor, el panel lateral no muestra Usuarios. Si entra igual por URL, ve un aviso, y la API le responde `403`.
