@@ -1,15 +1,9 @@
-// /clientes — módulo pendiente (RF-C1 a RF-C7). Se implementa en su hito (sección 12).
+// /clientes — listado con búsqueda y saldo de cada cliente (RF-C1). Búsqueda, estado y página en la URL.
 import type { Metadata } from "next";
-import { EncabezadoPagina } from "@/components/comunes/EncabezadoPagina";
-import { ModuloPendiente } from "@/components/comunes/ModuloPendiente";
+import { ListadoClientes, type ParametrosClientes } from "@/components/clientes/ListadoClientes";
 
 export const metadata: Metadata = { title: "Clientes" };
 
-export default function Pagina() {
-  return (
-    <>
-      <EncabezadoPagina titulo="Clientes" descripcion="Clientes, cuentas corrientes y pagos." />
-      <ModuloPendiente requerimientos="RF-C1 a RF-C7" />
-    </>
-  );
+export default async function PaginaClientes({ searchParams }: { searchParams: Promise<ParametrosClientes> }) {
+  return <ListadoClientes parametros={await searchParams} />;
 }

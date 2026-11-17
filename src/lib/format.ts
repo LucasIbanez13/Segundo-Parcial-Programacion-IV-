@@ -53,6 +53,11 @@ export function formatearNumeroComprobante(puntoVenta: number, numero: number): 
   return `${String(puntoVenta).padStart(4, "0")}-${String(numero).padStart(8, "0")}`;
 }
 
+// Recibo de pago: (1, 340) -> "R 0001-00000340" (regla 4: numeración propia de los recibos).
+export function formatearNumeroRecibo(puntoVenta: number, numero: number): string {
+  return `R ${formatearNumeroComprobante(puntoVenta, numero)}`;
+}
+
 // "Laura Méndez" -> "LM".
 export function iniciales(nombre: string): string {
   return nombre

@@ -15,6 +15,20 @@
       "when": 1794827523971,
       "tag": "0001_productos_y_stock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1794874889260,
+      "tag": "0002_clientes_y_cuenta_corriente",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1794877995675,
+      "tag": "0003_facturas",
+      "breakpoints": true
     }
   ]
 }

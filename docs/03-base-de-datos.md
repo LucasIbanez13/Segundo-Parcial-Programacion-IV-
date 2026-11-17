@@ -78,6 +78,39 @@
 
 Lo usan ventas y pagos (regla 4): incrementan `ultimo_numero` dentro de la transacción que graba el comprobante.
 
+### `clientes` — `src/db/schema/clientes.ts`
+
+| Columna | Tipo | Notas |
+| --- | --- | --- |
+| `id` | integer PK autoincrement | |
+| `tipo_doc` | text not null | CHECK `IN ('DNI','CUIT')` |
+| `nro_doc` | text not null | Formateado para mostrar |
+| `nro_doc_normalizado` | text not null, **unique** | Solo dígitos: documento único |
+| `nombre` | text not null | |
+| `nombre_busqueda` | text not null | Sin acentos ni mayúsculas, para buscar con `LIKE` |
+| `domicilio`, `telefono`, `email` | text null | |
+| `cuenta_corriente` | integer (boolean) not null default false | |
+| `limite_credito` | integer null | Centavos. `null` = sin límite. CHECK `> 0` |
+| `activo` | integer (boolean) not null default true | Baja lógica |
+| `created_at` | integer (timestamp_ms) not null | |
+
+El saldo **no** se guarda: es Σ débitos − Σ créditos de `movimientos_cuenta` (regla 7).
+
+### `pagos` — `src/db/schema/pagos.ts`
+
+`punto_venta` + `numero` (únicos juntos: recibo `R 0001-00000001`), `fecha`, `importe` (CHECK `> 0`), `medio` (`efectivo`, `transferencia`, `tarjeta_debito`), `observacion`, `cliente_id` FK, `usuario_id` FK, `created_at`.
+
+### `movimientos_cuenta` — `src/db/schema/movimientos-cuenta.ts`
+
+`tipo` (`debito` | `credito`), `importe` (siempre positivo, CHECK `> 0`), `fecha`, `descripcion`, `cliente_id` FK, `factura_id` FK null, `pago_id` FK null, `created_at`. Índice `(cliente_id, fecha)`. Débitos: ventas a cuenta. Créditos: pagos y anulaciones.
+
+### `facturas` y `factura_items` — `src/db/schema/facturas.ts`
+
+- `facturas`: `punto_venta` + `numero` (únicos juntos), `fecha`, `total`, `forma` (`contado`, `tarjeta`, `cuenta_corriente`), `tarjeta_tipo`, `tarjeta_marca`, `tarjeta_ultimos4` (regla 9: nunca el número completo), `monto_recibido`, `estado` (`emitida` | `anulada`), `motivo_anulacion`, `anulada_en`, `anulada_por_id` FK, `cliente_id` FK null (consumidor final), `usuario_id` FK, `created_at`. CHECK: cuenta corriente exige cliente; datos de tarjeta solo con tarjeta (4 dígitos); `monto_recibido >= total` solo en contado; anulada exige motivo, fecha y usuario.
+- `factura_items`: `factura_id` FK, `producto_id` FK, `codigo` y `descripcion` copiados del catálogo, `cantidad` (CHECK `> 0`), `precio_unitario` (congelado, regla 3), `subtotal` (CHECK `= cantidad × precio_unitario`), `created_at`. UNIQUE `(factura_id, producto_id)`.
+
+Emitir y anular son una sola transacción en `facturas.service.ts`: factura, renglones, `moverStock()` y movimiento de cuenta.
+
 ## Pendientes
 
-`clientes`, `facturas`, `factura_items`, `pagos`, `movimientos_cuenta`. Se agregan en sus hitos siguiendo la sección 7.
+`movimientos_stock.factura_id` todavía no tiene la FK a `facturas` (Elias).

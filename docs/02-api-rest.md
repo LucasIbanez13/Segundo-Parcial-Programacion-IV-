@@ -30,8 +30,15 @@
 | GET · PATCH | `/api/productos/{id}` | Ambos · Admin | ✅ |
 | GET · POST | `/api/productos/{id}/movimientos` | Ambos · Admin | ✅ |
 | GET | `/api/movimientos-stock` | Ambos | ✅ |
-| — | Clientes, cuenta, pagos | — | Pendiente (hito 2) |
-| — | Facturas | — | Pendiente (hito 3) |
+| GET · POST | `/api/clientes` | Ambos | ✅ |
+| GET · PATCH | `/api/clientes/{id}` | Ambos | ✅ |
+| GET | `/api/clientes/{id}/cuenta` | Ambos | ✅ |
+| POST | `/api/clientes/{id}/pagos` | Ambos | ✅ |
+| GET | `/api/pagos/{id}` | Ambos | ✅ |
+| GET · POST | `/api/facturas` | Ambos | ✅ |
+| GET | `/api/facturas/{id}` | Ambos | ✅ |
+| GET | `/api/facturas/proximo-numero` | Ambos | ✅ |
+| POST | `/api/facturas/{id}/anulacion` | Admin | ✅ |
 | — | Tablero | — | Pendiente (hito 4) |
 
 ## Decisiones sobre usuarios
@@ -59,3 +66,14 @@
 - `STOCK_INSUFICIENTE` trae `details: [{ productoId, codigo, existencia, solicitada }]`.
 - Los movimientos agregan `observacion`. `referencia` es `null` hasta que exista la tabla `facturas` (hito 3), que completa el `numero`.
 - `desde`/`hasta` en `GET /api/movimientos-stock`: días `AAAA-MM-DD` en hora de Argentina (UTC−3), ambos incluidos.
+
+## Decisiones sobre clientes, pagos y facturas
+
+- `GET /api/clientes`: `q` busca por nombre o documento sin importar mayúsculas, acentos, puntos ni guiones. `activo` por defecto `true` (`false` o `todos`). `conDeuda=true` trae solo saldo > 0, de mayor a menor, y suma `totalAdeudado`.
+- El documento se guarda formateado (`28.456.123`, `20-28456123-4`) y es único por sus dígitos (`409 DOCUMENTO_DUPLICADO`).
+- Baja o quitar la cuenta corriente con saldo distinto de cero → `422 SALDO_PENDIENTE`. Sin cuenta corriente, el límite queda `null`.
+- `GET /api/pagos/{id}` devuelve el recibo para reimprimirlo; su `saldoCliente` es el que quedó al registrar ese pago.
+- Recibos (`R 0001-…`) y facturas (`0001-…`) se numeran con la tabla `numeradores` (series `recibo-0001` y `factura-0001`) dentro de la transacción del comprobante.
+- `POST /api/facturas`: un cliente dado de baja → `422 VALIDACION` en `clienteId`. `STOCK_INSUFICIENTE` trae `details: [{ productoId, solicitado, disponible }]` con todos los productos que fallan. `LIMITE_CREDITO_EXCEDIDO` trae `details: { saldoActual, limite, excedente }`.
+- `GET /api/facturas`: `q` busca por número (`0001-00000067` o `67`) o por nombre del cliente. `totalEmitido` suma solo las emitidas.
+- `POST /api/facturas/{id}/anulacion`: el rol se verifica antes de validar (un vendedor recibe `403` aunque falte el motivo).

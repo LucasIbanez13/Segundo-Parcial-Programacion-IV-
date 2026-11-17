@@ -48,22 +48,24 @@
 ## Clientes y cuenta corriente (RF-C, hito 2)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | RF-C1 Listado con saldo | |
-| [ ] | RF-C2 Alta y edición (DNI/CUIT único, cuenta corriente, límite) | |
-| [ ] | RF-C3 Ficha con últimas facturas | |
-| [ ] | RF-C4 Cuenta corriente con saldo acumulado | |
-| [ ] | RF-C5 Registrar pago con recibo numerado e imprimible | |
-| [ ] | RF-C6 Saldos | |
-| [ ] | RF-C7 Baja lógica (`SALDO_PENDIENTE`) | |
+| [x] | Esquemas `clientes`, `pagos` y `movimientos_cuenta` + migración `0002_clientes_y_cuenta_corriente`; recibos numerados con `numeradores` | Lucila |
+| [x] | RF-C1 Listado con saldo | Lucila |
+| [x] | RF-C2 Alta y edición (DNI/CUIT único, cuenta corriente, límite) | Lucila |
+| [x] | RF-C3 Ficha con últimas facturas | Lucila |
+| [x] | RF-C4 Cuenta corriente con saldo acumulado | Lucila |
+| [x] | RF-C5 Registrar pago con recibo numerado e imprimible | Lucila |
+| [x] | RF-C6 Saldos | Lucila |
+| [x] | RF-C7 Baja lógica (`SALDO_PENDIENTE`) | Lucila |
 
 ## Ventas (RF-V, hito 3)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | RF-V1 a RF-V5 Nueva venta (comprador, ítems, existencia, formas de pago, teclado) | |
-| [ ] | RF-V6 Confirmación en una transacción con numeración correlativa | |
-| [ ] | RF-V7 Comprobante imprimible | |
-| [ ] | RF-V8 Listado con filtros y paginado | |
-| [ ] | RF-V9 Anulación (solo admin) | |
+| [x] | Esquemas `facturas` y `factura_items` + migración `0003_facturas`; numeración con `numeradores` | Lucila |
+| [x] | RF-V1 a RF-V5 Nueva venta (comprador, ítems, existencia, formas de pago, teclado) | Lucila |
+| [x] | RF-V6 Confirmación en una transacción con numeración correlativa (probado: dos ventas simultáneas de la última unidad, solo una pasa) | Lucila |
+| [x] | RF-V7 Comprobante imprimible | Lucila |
+| [x] | RF-V8 Listado con filtros y paginado | Lucila |
+| [x] | RF-V9 Anulación (solo admin) | Lucila |
 
 ## Tablero y cierre (RF-T, hito 4)
 | Hecho | Requisito | Responsable |

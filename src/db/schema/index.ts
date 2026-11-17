@@ -4,3 +4,7 @@ export * from "./categorias";
 export * from "./productos";
 export * from "./movimientos-stock";
 export * from "./numeradores";
+export * from "./clientes";
+export * from "./pagos";
+export * from "./movimientos-cuenta";
+export * from "./facturas";
