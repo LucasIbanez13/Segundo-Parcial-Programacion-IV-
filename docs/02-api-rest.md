@@ -64,7 +64,7 @@
 - `stockInicial` (opcional, ≥ 0): si es mayor que 0 se graba un ingreso con motivo *Stock inicial* en la misma transacción del alta.
 - `POST /api/productos/{id}/movimientos`: el motivo se valida según el tipo (lista cerrada de la sección 11.4). Solo `ingreso` y `egreso`: ventas y anulaciones los genera el módulo de facturas.
 - `STOCK_INSUFICIENTE` trae `details: [{ productoId, codigo, existencia, solicitada }]`.
-- Los movimientos agregan `observacion`. `referencia` es `null` hasta que exista la tabla `facturas` (hito 3), que completa el `numero`.
+- Los movimientos agregan `observacion`. En ventas y anulaciones, `referencia` trae `{ facturaId, numero }` con el número formateado (`0001-00000067`); en ingresos y egresos es `null`.
 - `desde`/`hasta` en `GET /api/movimientos-stock`: días `AAAA-MM-DD` en hora de Argentina (UTC−3), ambos incluidos.
 
 ## Decisiones sobre clientes, pagos y facturas

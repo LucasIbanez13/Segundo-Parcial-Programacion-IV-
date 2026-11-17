@@ -5,6 +5,7 @@ import { db, type Ejecutor } from "@/db";
 import { exigirRol, type UsuarioSesion } from "@/lib/auth/permisos";
 import type { TipoMovimientoStock } from "@/lib/constants";
 import { ApiError, errores } from "@/lib/errors";
+import { formatearNumeroComprobante } from "@/lib/format";
 import type { Pagina } from "@/lib/schemas/comun";
 import { filtrosMovimientosProductoSchema, filtrosMovimientosSchema, movimientoManualSchema } from "@/lib/schemas/stock";
 import { validar } from "@/lib/schemas/validar";
@@ -13,16 +14,28 @@ import type { MovimientoStockPublicoFila } from "@/repositories/movimientos-stoc
 import * as productosRepo from "@/repositories/productos.repository";
 
 // Forma pública de un movimiento (sección 11.4). En ventas y anulaciones, referencia trae la factura.
-export type MovimientoStockPublico = Omit<MovimientoStockPublicoFila, "facturaId" | "fecha"> & {
-  referencia: { facturaId: number; numero: string | null } | null;
+export type MovimientoStockPublico = Omit<
+  MovimientoStockPublicoFila,
+  "facturaId" | "facturaPuntoVenta" | "facturaNumero" | "fecha"
+> & {
+  referencia: { facturaId: number; numero: string } | null;
   fecha: string;
 };
 
-function aPublico({ facturaId, fecha, ...resto }: MovimientoStockPublicoFila): MovimientoStockPublico {
+// RF-P6: ventas y anulaciones referencian su factura con el número formateado ("0001-00001233").
+function aPublico({
+  facturaId,
+  facturaPuntoVenta,
+  facturaNumero,
+  fecha,
+  ...resto
+}: MovimientoStockPublicoFila): MovimientoStockPublico {
   return {
     ...resto,
-    // El número de factura se resuelve cuando exista la tabla facturas (hito 3, ventas).
-    referencia: facturaId === null ? null : { facturaId, numero: null },
+    referencia:
+      facturaId === null || facturaPuntoVenta === null || facturaNumero === null
+        ? null
+        : { facturaId, numero: formatearNumeroComprobante(facturaPuntoVenta, facturaNumero) },
     fecha: fecha.toISOString(),
   };
 }

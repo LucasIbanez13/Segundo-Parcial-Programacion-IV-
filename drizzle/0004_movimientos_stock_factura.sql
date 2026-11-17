@@ -1,0 +1,1 @@
+ALTER TABLE `movimientos_stock` ALTER COLUMN "factura_id" TO "factura_id" integer REFERENCES facturas(id) ON DELETE no action ON UPDATE no action;

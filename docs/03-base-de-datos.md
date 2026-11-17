@@ -54,7 +54,7 @@
 | `id` | integer PK autoincrement | |
 | `producto_id` | integer not null FK → `productos.id` | |
 | `usuario_id` | integer not null FK → `usuarios.id` | Trazabilidad (regla 11) |
-| `factura_id` | integer null | Ventas y anulaciones. La FK a `facturas` se agrega en el hito 3 |
+| `factura_id` | integer null FK → `facturas.id` | Ventas y anulaciones (migración `0004_movimientos_stock_factura`) |
 | `tipo` | text not null | CHECK `IN ('venta','anulacion','ingreso','egreso')` |
 | `cantidad` | integer not null | Con signo. CHECK `<> 0` y signo según el tipo (venta/egreso < 0, ingreso/anulación > 0) |
 | `existencia_resultante` | integer not null | CHECK `>= 0` |
@@ -110,7 +110,3 @@ El saldo **no** se guarda: es Σ débitos − Σ créditos de `movimientos_cuent
 - `factura_items`: `factura_id` FK, `producto_id` FK, `codigo` y `descripcion` copiados del catálogo, `cantidad` (CHECK `> 0`), `precio_unitario` (congelado, regla 3), `subtotal` (CHECK `= cantidad × precio_unitario`), `created_at`. UNIQUE `(factura_id, producto_id)`.
 
 Emitir y anular son una sola transacción en `facturas.service.ts`: factura, renglones, `moverStock()` y movimiento de cuenta.
-
-## Pendientes
-
-`movimientos_stock.factura_id` todavía no tiene la FK a `facturas` (Elias).

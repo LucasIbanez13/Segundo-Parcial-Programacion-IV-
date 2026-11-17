@@ -3,9 +3,10 @@
 import "server-only";
 import { and, count, desc, eq, gte, lt, type SQL } from "drizzle-orm";
 import { db, type Ejecutor } from "@/db";
-import { movimientosStock, productos, usuarios, type MovimientoStockNuevo } from "@/db/schema";
+import { facturas, movimientosStock, productos, usuarios, type MovimientoStockNuevo } from "@/db/schema";
 import type { TipoMovimientoStock } from "@/lib/constants";
 
+// Ventas y anulaciones traen el número de su factura (left join: ingresos y egresos no tienen).
 const COLUMNAS_PUBLICAS = {
   id: movimientosStock.id,
   producto: { id: productos.id, codigo: productos.codigo },
@@ -15,6 +16,8 @@ const COLUMNAS_PUBLICAS = {
   motivo: movimientosStock.motivo,
   observacion: movimientosStock.observacion,
   facturaId: movimientosStock.facturaId,
+  facturaPuntoVenta: facturas.puntoVenta,
+  facturaNumero: facturas.numero,
   usuario: { id: usuarios.id, nombre: usuarios.nombre },
   fecha: movimientosStock.fecha,
 };
@@ -28,6 +31,8 @@ export type MovimientoStockPublicoFila = {
   motivo: string;
   observacion: string | null;
   facturaId: number | null;
+  facturaPuntoVenta: number | null;
+  facturaNumero: number | null;
   usuario: { id: number; nombre: string };
   fecha: Date;
 };
@@ -62,6 +67,7 @@ export async function listar(
       .from(movimientosStock)
       .innerJoin(productos, eq(movimientosStock.productoId, productos.id))
       .innerJoin(usuarios, eq(movimientosStock.usuarioId, usuarios.id))
+      .leftJoin(facturas, eq(movimientosStock.facturaId, facturas.id))
       .where(condicion)
       .orderBy(desc(movimientosStock.fecha), desc(movimientosStock.id))
       .limit(filtros.limite)
@@ -77,6 +83,7 @@ export async function buscarPorId(id: number, ejecutor: Ejecutor = db): Promise<
     .from(movimientosStock)
     .innerJoin(productos, eq(movimientosStock.productoId, productos.id))
     .innerJoin(usuarios, eq(movimientosStock.usuarioId, usuarios.id))
+    .leftJoin(facturas, eq(movimientosStock.facturaId, facturas.id))
     .where(eq(movimientosStock.id, id))
     .limit(1);
   return fila ?? null;

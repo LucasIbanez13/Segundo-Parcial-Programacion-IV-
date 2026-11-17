@@ -29,6 +29,13 @@
       "when": 1794877995675,
       "tag": "0003_facturas",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1794909488821,
+      "tag": "0004_movimientos_stock_factura",
+      "breakpoints": true
     }
   ]
 }

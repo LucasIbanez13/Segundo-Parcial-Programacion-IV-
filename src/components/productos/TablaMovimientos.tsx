@@ -75,7 +75,7 @@ export function TablaMovimientos({
             <TableCell className="hidden xl:table-cell">
               {movimiento.referencia ? (
                 <Link href={`/ventas/${movimiento.referencia.facturaId}`} className="font-mono text-xs hover:underline">
-                  {movimiento.referencia.numero ?? `Factura #${movimiento.referencia.facturaId}`}
+                  {movimiento.referencia.numero}
                 </Link>
               ) : (
                 <Texto variante="chico">—</Texto>

@@ -3,6 +3,7 @@
 import { sql } from "drizzle-orm";
 import { check, index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { TIPOS_MOVIMIENTO_STOCK } from "@/lib/constants";
+import { facturas } from "./facturas";
 import { productos } from "./productos";
 import { usuarios } from "./usuarios";
 
@@ -17,9 +18,8 @@ export const movimientosStock = sqliteTable(
     usuarioId: integer("usuario_id")
       .notNull()
       .references(() => usuarios.id),
-    // Factura de origen en ventas y anulaciones. La tabla facturas llega en el hito 3 (ventas):
-    // ahí se le agrega la clave foránea a esta columna.
-    facturaId: integer("factura_id"),
+    // Factura de origen en ventas y anulaciones; null en ingresos y egresos manuales.
+    facturaId: integer("factura_id").references(() => facturas.id),
     tipo: text("tipo", { enum: TIPOS_MOVIMIENTO_STOCK }).notNull(),
     // Con signo: negativa en ventas y egresos, positiva en ingresos y anulaciones.
     cantidad: integer("cantidad").notNull(),
