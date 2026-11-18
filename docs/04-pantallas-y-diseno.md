@@ -25,7 +25,7 @@
 | `/usuarios` | Listado con búsqueda, filtro de estado, paginado, restablecer contraseña y activar/desactivar | Admin | ✅ |
 | `/usuarios/nuevo` | Alta de usuario | Admin | ✅ |
 | `/usuarios/[id]` | Edición de usuario | Admin | ✅ |
-| `/` | Tablero (RF-T) | Ambos | Pendiente |
+| `/` | Tablero: indicadores, ventas diarias de 30 días, ventas del mes por forma de pago, más vendidos y productos para reponer (RF-T1 a RF-T3) | Ambos | ✅ |
 | `/ventas` | Facturas con búsqueda, fechas, cliente, forma de pago, vendedor, estado y paginado (RF-V8) | Ambos | ✅ |
 | `/ventas/nueva` | Nueva venta: ítems, comprador, forma de pago y teclado (F2, F4, F8, F9) (RF-V1 a RF-V6) | Ambos | ✅ |
 | `/ventas/[id]` | Comprobante imprimible (RF-V7); el admin anula con motivo (RF-V9) | Ambos (anular: admin) | ✅ |

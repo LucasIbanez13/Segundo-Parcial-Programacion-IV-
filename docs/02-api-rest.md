@@ -39,7 +39,7 @@
 | GET | `/api/facturas/{id}` | Ambos | ✅ |
 | GET | `/api/facturas/proximo-numero` | Ambos | ✅ |
 | POST | `/api/facturas/{id}/anulacion` | Admin | ✅ |
-| — | Tablero | — | Pendiente (hito 4) |
+| GET | `/api/tablero` | Ambos | ✅ |
 
 ## Decisiones sobre usuarios
 
@@ -77,3 +77,10 @@
 - `POST /api/facturas`: un cliente dado de baja → `422 VALIDACION` en `clienteId`. `STOCK_INSUFICIENTE` trae `details: [{ productoId, solicitado, disponible }]` con todos los productos que fallan. `LIMITE_CREDITO_EXCEDIDO` trae `details: { saldoActual, limite, excedente }`.
 - `GET /api/facturas`: `q` busca por número (`0001-00000067` o `67`) o por nombre del cliente. `totalEmitido` suma solo las emitidas.
 - `POST /api/facturas/{id}/anulacion`: el rol se verifica antes de validar (un vendedor recibe `403` aunque falte el motivo).
+
+## Decisiones sobre el tablero
+
+- `GET /api/tablero`: "hoy", el mes y los 30 días se calculan en hora de Argentina (UTC−3). Solo cuentan facturas emitidas.
+- `ticketPromedio` = `Math.round(importe del mes / cantidad del mes)`, o `0` sin ventas.
+- `cuentasCorrientes` suma los clientes con saldo mayor que cero. `bajoMinimo` usa el mismo criterio que `GET /api/productos?bajoMinimo=true` (activos con `existencia < stockMinimo`).
+- `masVendidos`: por unidades y, a igualdad, por importe.

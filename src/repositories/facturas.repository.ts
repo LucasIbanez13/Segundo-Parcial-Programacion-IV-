@@ -221,3 +221,51 @@ export async function vendedores(ejecutor: Ejecutor = db): Promise<{ id: number;
     .orderBy(asc(usuarios.nombre), asc(usuarios.id));
 }
 
+
+// ---------- Tablero (RF-T1 a RF-T3) ----------
+// Solo facturas emitidas, con fecha en [desde, hasta).
+
+function emitidasEntre(desde: Date, hasta: Date): SQL | undefined {
+  return and(eq(facturas.estado, "emitida"), gte(facturas.fecha, desde), lt(facturas.fecha, hasta));
+}
+
+export async function resumenEmitidas(desde: Date, hasta: Date, ejecutor: Ejecutor = db) {
+  const [fila] = await ejecutor
+    .select({ cantidad: count(), importe: sql<number>`coalesce(sum(${facturas.total}), 0)`.mapWith(Number) })
+    .from(facturas)
+    .where(emitidasEntre(desde, hasta));
+  return fila;
+}
+
+// Importe por día en hora de Argentina (UTC−3, sin horario de verano): "AAAA-MM-DD".
+export async function importePorDia(desde: Date, hasta: Date, ejecutor: Ejecutor = db) {
+  const dia = sql<string>`date(${facturas.fecha} / 1000 - 10800, 'unixepoch')`;
+  return ejecutor
+    .select({ fecha: dia, importe: sql<number>`sum(${facturas.total})`.mapWith(Number) })
+    .from(facturas)
+    .where(emitidasEntre(desde, hasta))
+    .groupBy(dia);
+}
+
+export async function importePorForma(desde: Date, hasta: Date, ejecutor: Ejecutor = db) {
+  return ejecutor
+    .select({ forma: facturas.forma, importe: sql<number>`sum(${facturas.total})`.mapWith(Number) })
+    .from(facturas)
+    .where(emitidasEntre(desde, hasta))
+    .groupBy(facturas.forma);
+}
+
+// Productos más vendidos por unidades (a igualdad, por importe), con código y descripción del catálogo.
+export async function masVendidos(desde: Date, hasta: Date, limite: number, ejecutor: Ejecutor = db) {
+  const unidades = sql<number>`sum(${facturaItems.cantidad})`.mapWith(Number);
+  const importe = sql<number>`sum(${facturaItems.subtotal})`.mapWith(Number);
+  return ejecutor
+    .select({ productoId: productos.id, codigo: productos.codigo, descripcion: productos.descripcion, unidades, importe })
+    .from(facturaItems)
+    .innerJoin(facturas, eq(facturaItems.facturaId, facturas.id))
+    .innerJoin(productos, eq(facturaItems.productoId, productos.id))
+    .where(emitidasEntre(desde, hasta))
+    .groupBy(productos.id)
+    .orderBy(desc(unidades), desc(importe), asc(productos.id))
+    .limit(limite);
+}

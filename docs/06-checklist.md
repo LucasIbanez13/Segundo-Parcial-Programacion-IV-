@@ -70,6 +70,6 @@
 ## Tablero y cierre (RF-T, hito 4)
 | Hecho | Requisito | Responsable |
 | --- | --- | --- |
-| [ ] | RF-T1 a RF-T3 `GET /api/tablero` + gráficos con Chart.js | |
+| [x] | RF-T1 a RF-T3 `GET /api/tablero` + gráficos con Chart.js (`chart.js` 4.6.1 y `react-chartjs-2` 5.3.1) | Lucila |
 | [ ] | Seed completo: 2 usuarios, 5 categorías, 30 productos, 10 clientes y 50 facturas, con servicios | |
 | [ ] | README final (integrantes, URL, instalación, variables, usuarios de prueba) | |
