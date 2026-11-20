@@ -56,7 +56,7 @@
 - `GET /api/categorias`: por defecto solo las activas, sin paginar. El admin puede pedir `activa=false` o `activa=todos` (para reactivarlas desde su pantalla); un vendedor que lo pida recibe `403`.
 - `GET /api/productos`: `activo` por defecto `true`; `false` y `todos` son solo para el admin (`403` al vendedor). Orden por código.
 - `bajoMinimo` es `existencia < stockMinimo`. `bajoMinimo=false` trae los que no están bajo el mínimo.
-- Nombre de categoría y código de producto son únicos **sin distinguir mayúsculas** (`HE-001` = `he-001`, `Pinturería` = `PINTURERÍA`).
+- Nombre de categoría y código de producto son únicos **sin distinguir mayúsculas** (`CEL-001` = `cel-001`, `Fundas y protectores` = `FUNDAS Y PROTECTORES`).
 - El código de producto solo acepta letras sin acento, números y `. _ - /`, sin espacios (`422 VALIDACION`).
 - La búsqueda `q` no distingue mayúsculas en letras sin acento (es el `LIKE` de SQLite).
 - `existencia` en `POST` o `PATCH` de productos → `422 VALIDACION` con un mensaje propio en `details`.
