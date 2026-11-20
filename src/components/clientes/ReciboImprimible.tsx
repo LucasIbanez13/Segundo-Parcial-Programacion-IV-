@@ -4,7 +4,7 @@ import { Fila, Pila, Texto } from "@/components/base/primitivas";
 import { Insignia } from "@/components/comunes/InsigniaEstado";
 import { Marca } from "@/components/layout/Marca";
 import { Separator } from "@/components/ui/separator";
-import { ETIQUETAS_MEDIO_PAGO } from "@/lib/constants";
+import { DATOS_COMERCIO, ETIQUETAS_MEDIO_PAGO } from "@/lib/constants";
 import { formatearFecha, formatearHora, formatearMoneda } from "@/lib/format";
 import type { Recibo } from "@/services/pagos.service";
 
@@ -21,7 +21,13 @@ export function ReciboImprimible({ recibo }: { recibo: Recibo }) {
   return (
     <Pila espacio={6} className="text-foreground">
       <Fila justificar="entre" alinear="inicio" espacio={4} envolver>
-        <Marca />
+        <Pila espacio={2}>
+          <Marca />
+          <Pila espacio={0}>
+            <Texto variante="chico">{DATOS_COMERCIO.direccion}</Texto>
+            <Texto variante="chico">Tel. {DATOS_COMERCIO.telefono}</Texto>
+          </Pila>
+        </Pila>
         <Pila espacio={1} className="items-end">
           <Insignia tono="principal">RECIBO</Insignia>
           <Texto className="font-mono text-lg font-semibold">N° {recibo.numeroRecibo.replace(/^R /, "")}</Texto>

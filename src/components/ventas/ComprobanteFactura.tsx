@@ -6,7 +6,7 @@ import { Insignia } from "@/components/comunes/InsigniaEstado";
 import { Marca } from "@/components/layout/Marca";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ETIQUETAS_FORMA_PAGO, ETIQUETAS_TIPO_TARJETA } from "@/lib/constants";
+import { DATOS_COMERCIO, ETIQUETAS_FORMA_PAGO, ETIQUETAS_TIPO_TARJETA } from "@/lib/constants";
 import { formatearFecha, formatearHora, formatearMoneda } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { FacturaPublica } from "@/services/facturas.service";
@@ -38,7 +38,13 @@ export function ComprobanteFactura({ factura }: { factura: FacturaPublica }) {
   return (
     <Pila espacio={6} className="relative text-foreground">
       <Fila justificar="entre" alinear="inicio" espacio={4} envolver>
-        <Marca />
+        <Pila espacio={2}>
+          <Marca />
+          <Pila espacio={0}>
+            <Texto variante="chico">{DATOS_COMERCIO.direccion}</Texto>
+            <Texto variante="chico">Tel. {DATOS_COMERCIO.telefono}</Texto>
+          </Pila>
+        </Pila>
         <Pila espacio={1} className="items-end">
           <Insignia tono="principal">FACTURA</Insignia>
           <Texto className="font-mono text-lg font-semibold">N° {factura.numeroFormateado}</Texto>

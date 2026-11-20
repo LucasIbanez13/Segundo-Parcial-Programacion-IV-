@@ -1,5 +1,13 @@
 // Constantes del dominio. Sin dependencias del servidor: se usan también en el navegador.
 
+// Datos del comercio: la marca de la aplicación y el encabezado del comprobante (RF-V7) y del recibo (RF-C5).
+export const DATOS_COMERCIO = {
+  nombre: "Celulares el Tucu",
+  rubro: "Celulares y accesorios",
+  direccion: "25 de Mayo 300, San Miguel de Tucumán",
+  telefono: "(381) 123-4567",
+} as const;
+
 // Roles del sistema (enunciado, sección 3).
 export const ROLES = ["admin", "vendedor"] as const;
 export type Rol = (typeof ROLES)[number];
