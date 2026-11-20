@@ -121,7 +121,7 @@ export function FormularioUsuario({
             <Input
               {...propsDeCampo("email", errores.email)}
               type="email"
-              placeholder="nombre@comercio.com"
+              placeholder="nombre@celularestucu.test"
               autoComplete="off"
               value={valores.email}
               onChange={(e) => cambiar("email", e.target.value)}

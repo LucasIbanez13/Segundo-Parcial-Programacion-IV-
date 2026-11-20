@@ -23,7 +23,7 @@ export default async function PaginaLogin({ searchParams }: { searchParams: Prom
       <Pila espacio={6}>
         <FormularioLogin destino={destino} />
         <Texto variante="chico" className="text-center">
-          ¿No tenés usuario? Pedíselo a un administrador del comercio.
+          ¿No tenés usuario? Pedíselo a un administrador de la tienda.
         </Texto>
       </Pila>
     </PanelLogin>
