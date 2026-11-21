@@ -8,7 +8,7 @@ y protectores, cargadores y cables, auriculares y repuestos) y lleva la cuenta c
 usuarios por rol (administrador y vendedor) y un tablero de indicadores.
 
 - **Integrantes:** Cuellar, Elías · Ibañez, Lucas · Pastrana, Lucila
-- **URL pública:** _(completar al publicar en Vercel)_
+- **URL pública:** https://segundo-parcial-programacion-iv-c2l.vercel.app
 
 ## Tecnologías
 

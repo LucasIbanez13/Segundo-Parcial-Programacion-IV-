@@ -15,7 +15,7 @@
 | [x] | Módulo de formatos (`src/lib/format.ts`) | Lucas |
 | [x] | Layout: panel lateral con el módulo activo, que se colapsa en el teléfono, y barra superior con el usuario | Lucas |
 | [x] | Campo de importe (pesos ↔ centavos): `CampoImporte` + `textoACentavos()` | Elias |
-| [ ] | Publicación en Vercel + Turso | |
+| [x] | Publicación en Vercel + Turso (https://segundo-parcial-programacion-iv-c2l.vercel.app) | Lucas |
 
 ## Usuarios y acceso (RF-U)
 | Hecho | Requisito | Responsable |
@@ -72,4 +72,4 @@
 | --- | --- | --- |
 | [x] | RF-T1 a RF-T3 `GET /api/tablero` + gráficos con Chart.js (`chart.js` 4.6.1 y `react-chartjs-2` 5.3.1) | Lucila |
 | [x] | Seed completo (tienda de celulares): 2 usuarios, 5 categorías, 30 productos, 10 clientes, 50 facturas en 30 días, pagos y 2 anulaciones, con servicios | Elias |
-| [x] | README final (instalación, variables, usuarios de prueba). Faltan integrantes y URL pública | Elias |
+| [x] | README final (instalación, variables, usuarios de prueba, integrantes y URL pública) | Elias |
