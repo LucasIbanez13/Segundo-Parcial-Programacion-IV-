@@ -26,7 +26,7 @@ export function FormularioCategoria() {
         <CampoFormulario id="nombre" etiqueta="Nueva categoría" error={errores.nombre} className="w-full sm:max-w-sm">
           <Input
             {...propsDeCampo("nombre", errores.nombre)}
-            placeholder="Ej. Herramientas"
+            placeholder="Ej. Accesorios"
             autoComplete="off"
             value={valores.nombre}
             onChange={(e) => cambiar("nombre", e.target.value)}

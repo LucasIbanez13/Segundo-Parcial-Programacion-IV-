@@ -4,7 +4,9 @@
 
 ## Identidad visual propia
 
-- **Tokens** en `src/app/globals.css` (variables de shadcn/ui en `oklch`): azul tinta como `primary`, ámbar como acento del panel lateral (`sidebar-primary`) y neutros cálidos de fondo. También `exito`, `advertencia` y `destructive` para estados. Tiene modo oscuro (`.dark`).
+- **Marca:** "Celulares el Tucu", tienda de celulares y accesorios. Nombre, rubro, dirección y teléfono en `DATOS_COMERCIO` (`src/lib/constants.ts`); los usan el logo (`Marca`, con el ícono `Smartphone` de lucide-react), el título de la pestaña, el comprobante (RF-V7) y el recibo (RF-C5).
+- **Tokens** en `src/app/globals.css` (variables de shadcn/ui en `oklch`): azul como `primary`, verde como acento (`accent` y `sidebar-primary`: marca del panel lateral, íconos activos y la porción "Tarjeta" del gráfico de formas de pago) y neutros fríos de fondo. También `exito`, `advertencia` (ámbar, solo para avisos como "bajo mínimo") y `destructive` para estados. Tiene modo oscuro (`.dark`). Todo texto sobre su fondo tiene contraste de 4.5:1 o más en los dos temas.
+- **Gráficos:** `useColoresTema` lee los tokens (`primary`, `sidebar-primary`, `muted-foreground`…) y los pasa a hex para Chart.js, así siguen al tema claro u oscuro.
 - **Tipografía:** Geist (sans) y Geist Mono, cargadas con `next/font`.
 - **Componentes:** solo shadcn/ui (`src/components/ui/`) más las primitivas propias (`src/components/base/primitivas.tsx`: `Pila`, `Fila`, `Grilla`, `Texto`, `Titulo`).
 - **Comunes** (`src/components/comunes/`): `EncabezadoPagina`, `EstadoVacio`, `EstadoError`, `CargandoTabla`, `ConfirmarAccion`, `CampoFormulario`, `Insignia` / `InsigniaActivo`, `Paginador`.

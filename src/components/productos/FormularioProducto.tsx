@@ -79,7 +79,7 @@ export function FormularioProducto({
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-5 sm:grid-cols-2">
-          <CampoFormulario id="codigo" etiqueta="Código" error={errores.codigo} ayuda="Único. Ej. HE-001.">
+          <CampoFormulario id="codigo" etiqueta="Código" error={errores.codigo} ayuda="Único. Ej. CEL-001.">
             <Input
               {...propsDeCampo("codigo", errores.codigo)}
               autoComplete="off"
@@ -106,7 +106,7 @@ export function FormularioProducto({
           <CampoFormulario id="descripcion" etiqueta="Descripción" error={errores.descripcion} className="sm:col-span-2">
             <Input
               {...propsDeCampo("descripcion", errores.descripcion)}
-              placeholder="Ej. Martillo carpintero 500 g"
+              placeholder="Ej. Samsung Galaxy A15 128 GB"
               autoComplete="off"
               value={valores.descripcion}
               onChange={(e) => cambiar("descripcion", e.target.value)}

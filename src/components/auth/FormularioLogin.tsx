@@ -35,7 +35,7 @@ export function FormularioLogin({ destino }: { destino: string }) {
               {...propsDeCampo("email", errores.email)}
               type="email"
               autoComplete="username"
-              placeholder="nombre@comercio.com"
+              placeholder="nombre@celularestucu.test"
               autoFocus
               value={valores.email}
               onChange={(e) => cambiar("email", e.target.value)}

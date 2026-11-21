@@ -13,7 +13,7 @@ ChartJS.register(ArcElement, Tooltip);
 
 function colorDe(forma: FormaPago, colores: ColoresTema): string {
   if (forma === "contado") return colores.primary;
-  if (forma === "tarjeta") return colores.advertencia;
+  if (forma === "tarjeta") return colores["sidebar-primary"];
   return colores["muted-foreground"];
 }
 

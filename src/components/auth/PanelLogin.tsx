@@ -5,7 +5,7 @@ import { Marca } from "@/components/layout/Marca";
 
 const PUNTOS = [
   { icono: ReceiptText, texto: "Facturación rápida en el mostrador" },
-  { icono: Boxes, texto: "Stock al día con cada venta" },
+  { icono: Boxes, texto: "Stock de celulares y accesorios al día" },
   { icono: Users, texto: "Cuentas corrientes de tus clientes" },
   { icono: BarChart3, texto: "Indicadores del negocio en el tablero" },
 ];
@@ -17,7 +17,7 @@ export function PanelLogin({ children }: { children: ReactNode }) {
         <Marca invertida />
         <div className="flex flex-col gap-6">
           <h2 className="max-w-md text-3xl font-semibold leading-tight tracking-tight text-sidebar-accent-foreground">
-            Todo tu comercio en un solo lugar.
+            Toda la tienda en un solo lugar.
           </h2>
           <ul className="flex flex-col gap-3">
             {PUNTOS.map(({ icono: Icono, texto }) => (

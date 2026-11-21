@@ -4,12 +4,14 @@
 // oscuro. Chart.js dibuja en un canvas y no entiende variables CSS ni oklch(): el canvas los traduce a hex.
 import { useEffect, useState } from "react";
 
-const TOKENS = ["primary", "advertencia", "muted-foreground", "border", "foreground", "card"] as const;
+// "sidebar-primary" es el acento verde de la marca.
+const TOKENS = ["primary", "sidebar-primary", "advertencia", "muted-foreground", "border", "foreground", "card"] as const;
 type Token = (typeof TOKENS)[number];
 export type ColoresTema = Record<Token, string>;
 
 const POR_DEFECTO: ColoresTema = {
-  primary: "#2b4a8b",
+  primary: "#1f5bc1",
+  "sidebar-primary": "#2fbd6f",
   advertencia: "#b7791f",
   "muted-foreground": "#6b7280",
   border: "#e5e7eb",
