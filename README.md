@@ -7,7 +7,7 @@ Sistema de gestión para **Celulares el Tucu**, una tienda de celulares y acceso
 y protectores, cargadores y cables, auriculares y repuestos) y lleva la cuenta corriente de los clientes, con
 usuarios por rol (administrador y vendedor) y un tablero de indicadores.
 
-- **Integrantes:** _(completar)_
+- **Integrantes:** Cuellar, Elías · Ibañez, Lucas · Pastrana, Lucila
 - **URL pública:** _(completar al publicar en Vercel)_
 
 ## Tecnologías
@@ -75,7 +75,8 @@ Ver [`.env.example`](.env.example).
 | Administrador | Laura Méndez | `admin@celularestucu.test` | `admin1234` | Todo: usuarios, catálogo, categorías, movimientos de stock y anulación de facturas |
 | Vendedor | Pablo Ruiz | `vendedor@celularestucu.test` | `vendedor1234` | Vender, consultar el catálogo, gestionar clientes y registrar pagos |
 
-(Son los valores de `.env.example` para desarrollo; en producción se definen en las variables de Vercel.)
+Con estos usuarios se ingresa tanto en local como en la versión publicada (la base de Turso ya los tiene cargados).
+Son los valores de `SEED_*` de `.env.example`.
 
 ## Arquitectura
 
